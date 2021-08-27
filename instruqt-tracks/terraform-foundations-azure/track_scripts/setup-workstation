@@ -16,13 +16,10 @@ source /root/.bashrc
 # Set up the web server for instructions
 apt-get update --fix-missing
 apt-get -y install nginx
-
 cd /tmp
 wget --quiet https://storage.googleapis.com/instruqt-hashicorp-tracks/terraform-shared/mdwiki-0.6.2.zip
 unzip mdwiki-0.6.2.zip
 cp mdwiki-0.6.2/mdwiki.html /var/www/html/index.html
-#curl https://raw.githubusercontent.com/scarolan/terraform-foundations-azure/main/AZURE.md -o /var/www/html/index.md
-cd /tmp
 git clone https://github.com/scarolan/terraform-foundations-azure tfa
 cp -r tfa/images /var/www/html
 cp tfa/AZURE.md /var/www/html/index.md

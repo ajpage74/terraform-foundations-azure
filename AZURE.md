@@ -18,12 +18,10 @@ Warning: Use an incognito window when you log onto the Azure portal. You can do 
 ## Lab 1: Terraform Basics
 Terraform is a command line tool that is written in Golang. Here is an example of some Terraform code that builds an Azure Resource Group:
 
-```terraform
 resource "azurerm_resource_group" "example" {
   name     = "example"
   location = "Central US"
 }
-```
 
 ## Lab 2: The Azure Provider
 
