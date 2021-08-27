@@ -18,7 +18,7 @@ challenges:
   id: p7digpdhpoyg
   type: challenge
   title: "☁️ Azure Lab Environment \U0001F4BB"
-  teaser: This challenge gets you a fresh Azure subscription that is valid for eight hours.
+  teaser: This challenge sets up your training environment which is valid for 8 hours. Use the Instructions tab to work through all your lab exercises. Click the View button to return to the lab.
   notes:
   - type: text
     contents: |
@@ -55,4 +55,4 @@ challenges:
     port: 80
   difficulty: basic
   timelimit: 28800
-checksum: "18436221708770633419"
+checksum: "4844317022426168133"

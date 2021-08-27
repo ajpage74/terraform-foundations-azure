@@ -4,7 +4,7 @@
 Welcome to Terraform Foundations on Azure. Follow the instructions on this page to complete all your lab assignments. You may use the navigation menu on the left to jump to a particular lab exercise.
 
 ## 👩🏾‍🔬 Your Lab Environment
-Your lab environment is running on the [Instruqt](https://instruqt.com) platform. Instruqt provides sandbox cloud environments where you can experiment and learn how to use HashiCorp tools like Terraform. You have four tabs in your learning environment:
+Your lab environment is running on the <a href="https://instruqt.com" target="_blank">Instruqt</a> platform. Instruqt provides sandbox cloud environments where you can experiment and learn how to use HashiCorp tools like Terraform. You have four tabs in your learning environment:
 
 * **Instructions** - This is the tab you're on right now. All your lab instructions are contained on this page. You should return to this tab whenver you need to review the instructions or move on to a new lab exercise.
 * **Text Editor** - This tab contains a simple programmer's text editor. Use the file navigation menu on the left side of the editor to browse to files that you wish to edit.
