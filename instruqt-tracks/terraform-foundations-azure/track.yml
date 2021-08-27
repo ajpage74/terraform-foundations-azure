@@ -17,13 +17,11 @@ challenges:
 - slug: lab-environment
   id: p7digpdhpoyg
   type: challenge
-  title: "☁️ Azure Lab Environment \U0001F4BB"
+  title: "☁️ Azure Terraform Lab \U0001F4BB"
   teaser: This challenge sets up your training environment which is valid for 8 hours. Use the Instructions tab to work through all your lab exercises. Click the View button to return to the lab.
   notes:
   - type: text
-    contents: |
-      Setting up your environment...
-      Keep an eye on the bottom right corner to know when you can get started.
+    contents: "Buckle up...you're about to enter the Terraverse! \U0001F4BB \U0001F680 \U0001F47D\n"
   assignment: |-
     Welcome to Terraform Foundations on Azure! Let's take a quick tour of your lab environment. If you look up at the top navigation bar of Instruqt you will see four tabs. Go ahead and click each tab to see what's on it.
 
@@ -55,4 +53,4 @@ challenges:
     port: 80
   difficulty: basic
   timelimit: 28800
-checksum: "4844317022426168133"
+checksum: "3911901645521748589"

@@ -27,6 +27,12 @@ git clone https://github.com/scarolan/terraform-foundations-azure tfa
 cp -r tfa/images /var/www/html
 cp tfa/AZURE.md /var/www/html/index.md
 
+# Upgrade terraform to 1.0.5
+# This should be removed once the workstation is updated.
+wget https://releases.hashicorp.com/terraform/1.0.5/terraform_1.0.5_linux_amd64.zip -O /tmp/terraform.zip
+unzip -o /tmp/terraform.zip -d /usr/local/bin
+chmod +x /usr/local/bin/terraform
+
 # Go home
 cd /root
 
