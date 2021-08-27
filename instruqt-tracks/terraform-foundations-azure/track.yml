@@ -1,0 +1,58 @@
+slug: terraform-foundations-azure
+id: f6yk00j7w6ti
+type: track
+title: Terraform Foundations on Azure
+teaser: Learn how to write, test, run and share Terraform code for Azure Infrastructure.
+description: This beginner level track teaches the basics of writing Terraform code, how to use variables, module usage, version control systems and more. The target audience for this track is developers and operations staff who will be writing and consuming Terraform code to build infrastructure on Azure.
+icon: https://storage.googleapis.com/instruqt-hashicorp-tracks/logo/terraform.png
+tags:
+- terraform
+- modules
+owner: hashicorp
+developers:
+- sean.carolan@hashicorp.com
+private: true
+published: true
+challenges:
+- slug: lab-environment
+  id: p7digpdhpoyg
+  type: challenge
+  title: "☁️ Azure Lab Environment \U0001F4BB"
+  teaser: This challenge gets you a fresh Azure subscription that is valid for eight hours.
+  notes:
+  - type: text
+    contents: |
+      Setting up your environment...
+      Keep an eye on the bottom right corner to know when you can get started.
+  assignment: |-
+    Welcome to Terraform Foundations on Azure! Let's take a quick tour of your lab environment. If you look up at the top navigation bar of Instruqt you will see four tabs. Go ahead and click each tab to see what's on it.
+
+    1. _Instructions_ - Find your lab exercises and notes on this tab. Return to this tab after you complete each challenge to receive your next quest.
+    2. _Text Editor_ - This is your handy programmer's text editor. We have also installed vi, emacs and nano for the command line commandos.
+    3. _Shell_ - This is where you run all your commands. Your Ubuntu 18.04 workstation comes preinstalled with popular devops tools such as terraform, git, docker, and the Azure `az` Command Line tool.
+    4. _Azure Portal_ - Here you'll find a link to log onto the Azure portal along with your sandbox credentials. Always use an incognito browser window to log onto the Portal.
+
+    You may hide this side panel once you are familiar with your lab environment. You won't need the **Check** button below until the very end of the lab.
+
+    Use the right facing `>` button at the top of this sidebar to hide it.
+  tabs:
+  - title: Instructions
+    type: service
+    hostname: workstation
+    path: /
+    port: 80
+  - title: Text Editor
+    type: code
+    hostname: workstation
+    path: /root/workspace
+  - title: Shell
+    type: terminal
+    hostname: workstation
+  - title: Azure Portal
+    type: service
+    hostname: cloud-client
+    path: /
+    port: 80
+  difficulty: basic
+  timelimit: 28800
+checksum: "14318377619622177384"
