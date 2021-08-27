@@ -16,6 +16,13 @@ Your lab environment is running on the <a href="https://instruqt.com" target="_b
 ![incognito_mode](images/incognito_mode.png)
 
 ## Lab 1: Terraform Basics
+Terraform is a command line tool that is written in Golang. Here is an example of some Terraform code that builds an Azure Resource Group:
+
+<syntaxhighlight lang="terraform">
+resource "azurerm_resource_group" "example" {
+  name     = "example"
+  location = "Central US"
+}</syntaxhighlight>
 
 ## Lab 2: The Azure Provider
 
