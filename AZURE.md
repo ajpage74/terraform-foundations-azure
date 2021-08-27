@@ -15,7 +15,7 @@ Warning: Use an incognito window when you log onto the Azure portal. You can do 
 
 ![incognito_mode](images/incognito_mode.png)
 
-## Lab 1: Terraform Basics
+## ⚙️ Lab 1: Terraform Basics
 Terraform is a command line tool that is written in Golang. Here is an example of some Terraform code that builds an Azure Resource Group:
 
 <!-- We had to use the php syntax highlighter because hcl isn't available. -->
@@ -26,12 +26,12 @@ resource "azurerm_resource_group" "example" {
 }
 ```
 
-## Lab 2: The Azure Provider
+## ⚙️ Lab 2: The Azure Provider
 
-## Lab 3: Build a Resource Group
+## ⚙️ Lab 3: Build a Resource Group
 
-## Lab 4: Add a Virtual Network
+## ⚙️ Lab 4: Add a Virtual Network
 
-## Lab 5: Create a Subnet
+## ⚙️ Lab 5: Create a Subnet
 
-## Appendix A: The Answers
+## ❓ Appendix A: The Answers
