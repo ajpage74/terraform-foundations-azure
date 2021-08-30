@@ -410,7 +410,7 @@ terraform plan
 terraform apply
 ```
 
-Terraform is able to detect that someone tampered with the configuration and deleted our resource group:
+Terraform was able to detect that someone tampered with the configuration and deleted our resource group:
 
 ```
 Note: Objects have changed outside of Terraform
