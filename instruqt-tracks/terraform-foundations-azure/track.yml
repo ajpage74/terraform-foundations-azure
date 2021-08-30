@@ -23,14 +23,9 @@ challenges:
   - type: text
     contents: "Buckle up...you're about to enter the Terraverse! \U0001F4BB \U0001F680 \U0001F47D\n"
   assignment: |-
-    Welcome to Terraform Foundations on Azure! Let's take a quick tour of your lab environment. If you look up at the top navigation bar of Instruqt you will see four tabs. Go ahead and click each tab to see what's on it.
+    Welcome to Terraform Foundations on Azure! Let's take a quick tour of your lab environment. If you look up at the top navigation bar of Instruqt you will see four tabs. Click each tab to explore the lab environment.
 
-    1. _Instructions_ - Find your lab exercises and notes on this tab. Return to this tab after you complete each challenge to receive your next quest.
-    2. _Text Editor_ - This is your handy programmer's text editor. We have also installed vi, emacs and nano for the command line commandos.
-    3. _Shell_ - This is where you run all your commands. Your Ubuntu 18.04 workstation comes preinstalled with popular devops tools such as terraform, git, docker, and the Azure `az` Command Line tool.
-    4. _Azure Portal_ - Here you'll find a link to log onto the Azure portal along with your sandbox credentials. Always use an incognito browser window to log onto the Portal.
-
-    You may hide this side panel once you are familiar with your lab environment. You won't need the **Check** button below until the very end of the lab.
+    You may hide this side panel. You won't need the **Check** button below until the very end of the lab.
 
     Use the right facing `>` button at the top of this sidebar to hide it.
   tabs:
@@ -39,6 +34,7 @@ challenges:
     hostname: workstation
     path: /
     port: 80
+    new_window: true
   - title: Text Editor
     type: code
     hostname: workstation
@@ -53,4 +49,4 @@ challenges:
     port: 80
   difficulty: basic
   timelimit: 28800
-checksum: "3511446019020801164"
+checksum: "5337221228295559188"
