@@ -30,6 +30,17 @@ wget https://releases.hashicorp.com/terraform/1.0.5/terraform_1.0.5_linux_amd64.
 unzip -o /tmp/terraform.zip -d /usr/local/bin
 chmod +x /usr/local/bin/terraform
 
+# Set up git-aware prompt via .bash_profile
+# TODO: Move git prompt repo to internal
+echo "source /root/.bash_profile" >> /root/.bashrc
+git clone https://github.com/scarolan/bash-git-prompt.git ~/.bash-git-prompt --depth=1
+cat <<-EOM > ~/.bash_profile 
+if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
+    GIT_PROMPT_ONLY_IN_REPO=1
+    source $HOME/.bash-git-prompt/gitprompt.sh
+fi
+EOM
+
 # Go home
 cd /root
 
