@@ -114,24 +114,18 @@ You'll see some output that looks like this:
 
 Note the short commit hash next to the branch name, `45d303a`. Every single commit you make to the git repo has an identifier like this. You can use these hashes to refer to specific commits if you need to go back in time.
 
-Run the status command again and see how it has returned back to a clean working tree. Your bash prompt now has a green checkmark again but there's a new symbol `↑·1` that indicates you have changes that have not been pushed to the main repo.
+Run the status command again and see how it has returned back to a clean working tree.
 
 ```bash
 git status
 ```
 
+Your bash prompt now has a green checkmark again but there's a new symbol `↑·1` that indicates you have changes that have not been pushed to the main repo.
+
 ### **Exercise 3:** Remote Repositories - Credentials Config
-When you collaborate with others on the same code base you'll want a shared main repository that everyone can contribute to. This is known as a remote repository. Check your remote URL with the following command:
-
-```bash
-git remote -v
-```
-
-You'll see a remote named `origin` which is the default name for remote repos, with entries for both **fetch** and **push**. This is the same repo you forked earlier.
-
 GitHub passwords are no longer supported for command line access so you'll need to create a Personal Access Token. Visit this link in a web browser and click on the **Generate New Token** button:
 
-https://github.com/settings/tokens
+<a href="https://github.com/settings/tokens" target="_blank">https://github.com/settings/tokens</a>
 
 In the Note section you can enter "Terraform Azure Lab". Under the Select Scopes section check the box next to **repo**.
 
@@ -139,15 +133,25 @@ In the Note section you can enter "Terraform Azure Lab". Under the Select Scopes
 
 Click on **Generate Token** at the bottom of the page. GitHub will generate you a new personal access token. Save this token in a text file as you'll need it in a moment.
 
-Configure the Git Credential Helper so you won't have to copy your token in every time you make a change. Run this command to set up the credential helper to store your creds for 4 hours:
+![Personal Access Token](images/personal_access_token.png)
+
+Configure the Git Credential Helper so you won't have to copy your token in every time you make a change. Run this command to set up the credential helper to store your creds for 4 hours.
 
 ```bash
 git config credential.helper 'cache --timeout 14400'
 ```
 
 ### **Exercise 4:** Remote Repositories - Push and Pull
+#### Git Remote
+When you collaborate with others on the same codebase you'll want a shared main repository that everyone can contribute to. This is known as a remote repository. Check your remote URL with the following command:
+
+```bash
+git remote -v
+```
+
+You'll see a remote named `origin` which is the default name for remote repos, with entries for both **fetch** and **push**. This is the same repo you forked earlier.
 #### Git Push
-Now let's push our local changes to the remote repo. Run the following command.
+Let's push our local changes to the remote repo. Run the following command.
 
 ```bash
 git push origin main
@@ -155,7 +159,7 @@ git push origin main
 
 This command means "Push all my local commits to the main branch on the origin repo."
 
-NOTE: You can also abbreviate this command by simply typing `git push` which uses the default remote repo and branch names, **origin** and **main**.
+Note: You can also abbreviate this command by simply typing `git push` which uses the default remote repo and branch names, **origin** and **main**.
 
 You'll be prompted to log onto GitHub to authorize the push. Use your GitHub username along with the personal access token you created in the previous step. Your credentials are now safely cached on the workstation for future commands.
 
@@ -178,7 +182,7 @@ Your local repo doesn't know anything about the changes on the remote. Let's run
 git fetch
 ```
 
-Aha - look at how your prompt changed: `↓·1`. This means there is one new commit on the remote repo that we can merge into our local copy. Run this command to merge the change:
+Look at how your prompt changed: `↓·1`. This means there is one new commit on the remote repo that we can merge into our local copy. Run this command to merge the change:
 
 ```bash
 git merge FETCH_HEAD
@@ -190,7 +194,7 @@ You can combine the fetch and merge steps into a single command, `git pull`. Try
 git pull
 ```
 
-NOTE: Advanced git users run `git fetch` and `git pull` often to ensure that they have the latest changes to the codebase.
+Note: Advanced git users run `git fetch` and `git pull` often to ensure that they have the latest changes to the codebase.
 
 ### **Exercise 5:** Git Log
 You can output the log for your Git repository with the `git log` command. Try it now. 
