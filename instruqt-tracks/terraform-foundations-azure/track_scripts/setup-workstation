@@ -15,7 +15,7 @@ source /root/.bashrc
 
 # Set up the web server for instructions
 apt-get update --fix-missing
-apt-get -y install nginx
+apt-get -y install nginx tree
 cd /tmp
 wget --quiet https://storage.googleapis.com/instruqt-hashicorp-tracks/terraform-shared/mdwiki-0.6.2.zip
 unzip mdwiki-0.6.2.zip

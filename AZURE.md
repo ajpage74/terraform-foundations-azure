@@ -11,7 +11,7 @@ Your lab environment is running on the <a href="https://instruqt.com" target="_b
 * **Shell** - This is the bash shell for your Ubuntu 18.04 workstation. We've pre-installed a bunch of popular devops tools such as terraform, git, docker, and the `az` Azure CLI tool.
 * **Azure Portal** - This tab contains a link and credentials for your Azure sandbox subscription.
 
-Warning: Use an incognito window when you log onto the Azure portal. You can do this by right-clicking the link on the Azure Portal page and selecting "Open in Incognito Mode" or "Open in Private Mode". Using an incognito/private window for all your lab exercises will ensure that you don't accidentally log on with your company or personal account.
+Warning: Use an incognito window when you log onto the Azure portal. You can do this by right-clicking the link on the Azure Portal link and selecting "Open in Incognito Mode" or "Open in Private Mode". Using an incognito/private window for all your lab exercises will ensure that you don't accidentally log on with your company or personal account.
 
 ![incognito_mode](images/incognito_mode.png)
 
@@ -38,7 +38,7 @@ cd terraform-azure-labs
 ls -l
 ```
 
-Note that your prompt changes when you change into a Git repository. The git-enabled prompt adds additional information about your git repository including the branch name and any changes that haven't been committed yet.
+Note that your prompt changes when you cd into a Git repository. The git-enabled prompt adds additional information about your git repository including the branch name and any changes that haven't been committed yet.
 
 Note: If you know your way around the Git command line you may skip the rest of this section and proceed on to the next lab, Terraform Basics.
 
@@ -97,7 +97,7 @@ Run the status command again to see what's different:
 git status
 ```
 
-Now you'll see your two changes sitting in a 'ready to commit' state. This is known as **staging**. Staged items are changes that you want to make but haven't committed yet. It's a bit like a shopping cart at the grocery store. You can add and remove items to your cart before you make the final decision what to purchase.
+Now you'll see your two changes sitting in a 'ready to commit' state. This is known as **staging**. Staged items are changes that you want to make but haven't committed yet. It's a bit like a shopping cart at the grocery store. You can add and remove items to your cart before you make the final decision on what to purchase.
 
 #### Git Commit
 The next step is to **commit** your pending changes. Use the following command to create a new commit along with a short message explaining what you did:
@@ -256,7 +256,88 @@ resource "azurerm_resource_group" "example" {
 }
 ```
 
+### Terraform Usage
+Let's try a few basic commands. Open the Shell tab in your lab environment and run the following commands:
+
+The Unix `which` command will show you where Terraform is installed. Powershell users can use `Get-Command` here instead. 
+```bash
+which terraform
+```
+
+The `file` command tells us what type of file Terraform is. Note that it is an *executable* which means we can run it from the command line.
+```bash
+file /usr/local/bin/terraform
+```
+
+Try running `terraform version` next. This will output the version of Terraform you have installed.
+```bash
+terraform version
+```
+
+This useful command shows all the subcommands supported by the `terraform` command. We'll explore some of these subcommands in the next section.
+```bash
+terraform help
+```
+
+Let's create a new Terraform workspace to do our lab work in. Change back into your `/root/workspace` directory and create a new directory called `sandbox`. Use the cd command to move into the sandbox directory:
+
+```bash
+cd /root/workspace
+mkdir sandbox
+cd sandbox
+```
+
+Terraform code files always end in a `.tf` extension. By convention, the main configuration file is called `main.tf`.
+
+Create a new file in your sandbox directory called main.tf:
+```bash
+touch main.tf
+```
+
+Your provider configuration and Terraform code will be added to this file in the next labs.
+
 ## ⚙️ Lab 2: The Azure Provider
+In order for Terraform to do anything useful, it needs a [provider](https://www.terraform.io/docs/language/providers/index.html). Terraform Providers are the plugins that connect the Terraform command line tool to various APIs and SaaS platforms. Take a moment to browse the public provider registry now:
+
+https://registry.terraform.io/browse/providers
+
+Today you'll be using the Azure provider to build resources in your Azure Cloud sandbox.  Visit the Terraform docs example for the Azure provider here:
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#example-usage
+
+Copy the `terraform` and `provider` blocks into your **main.tf** file. You do not need the rest of the example code yet. Use the save icon to save your file.
+
+Now you're ready to initialize your workspace. Run the `terraform init` command:
+```bash
+terraform init
+```
+
+You should see output like this:
+```
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding hashicorp/azurerm versions matching "2.46.0"...
+- Installing hashicorp/azurerm v2.46.0...
+- Installed hashicorp/azurerm v2.46.0 (signed by HashiCorp)
+```
+
+Terraform read your **main.tf** file and downloaded the azurerm provider. Run the `tree` command to see the files that were installed:
+```bash
+tree .terraform
+```
+
+![Tree Command Output](images/tree_command.png)
+
+Terraform stores all its providers and modules in a hidden directory named `.terraform`. Now that you have the provider installed you're ready to start building on Azure!
+
+In order to use the Azure provider, Terraform needs to authenticate against the Azure Cloud API. The simplest way to authenticate Terraform is to [use an Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret). Fortunately we've already taken care of this part for you in your lab environment. You can view your Azure Service Principal credentials with the following commands:
+
+```bash
+echo $ARM_CLIENT_ID
+echo $ARM_CLIENT_SECRET
+```
+
+Warning: Sensitive credentials such as your Azure Service Principal should always be stored safely, and **never in your Terraform code.** Do not ever store Azure credentials in your `*.tf` files or variables files. They should always be set as environment variables, which we've already done for you in your Shell environment. 
 
 ## ⚙️ Lab 3: Build a Resource Group
 
