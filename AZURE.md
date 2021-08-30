@@ -11,6 +11,8 @@ Your lab environment is running on the <a href="https://instruqt.com" target="_b
 * **Shell** - This is the bash shell for your Ubuntu 18.04 workstation. We've pre-installed a bunch of popular devops tools such as terraform, git, docker, and the `az` Azure CLI tool.
 * **Azure Portal** - This tab contains a link and credentials for your Azure sandbox subscription.
 
+Note: You can increase or decrease the text size in your lab environment with the `CTRL +` or `CTRL -` keyboard shortcuts Windows/Linux). Use the `CMD` key instead if you are on MacOS.
+
 Warning: Use an incognito window when you log onto the Azure portal. You can do this by right-clicking the link on the Azure Portal page and selecting "Open in Incognito Mode" or "Open in Private Mode". Using an incognito/private window for all your lab exercises will ensure that you don't accidentally log on with your company or personal account.
 
 ![incognito_mode](images/incognito_mode.png)
