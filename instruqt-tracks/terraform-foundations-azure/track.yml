@@ -25,6 +25,8 @@ challenges:
   assignment: |-
     Welcome to Terraform Foundations on Azure! Let's take a quick tour of your lab environment. If you look up at the top navigation bar of Instruqt you will see four tabs. Click each tab to explore the lab environment.
 
+    Note: You can increase or decrease the text size in your lab environment with the `CTRL +` or `CTRL -` keyboard shortcuts Windows/Linux). Use the `CMD` key instead if you are on MacOS.
+
     You may hide this side panel. You won't need the **Check** button below until the very end of the lab.
 
     Use the right facing `>` button at the top of this sidebar to hide it.
@@ -49,4 +51,4 @@ challenges:
     port: 80
   difficulty: basic
   timelimit: 28800
-checksum: "14507538340352013447"
+checksum: "4297956040996209049"
