@@ -22,7 +22,7 @@ Warning: Use an incognito window when you log onto the Azure portal. You can do 
 
 You'll need a GitHub.com account to do the lab exercises. Visit github.com in a new browser tab and sign in. Visit the following URL and click the **Fork** button in the upper right corner:
 
-https://github.com/hashicorp/terraform-azure-labs
+<a href="https://github.com/hashicorp/terraform-azure-labs" target="_blank">https://github.com/hashicorp/terraform-azure-labs</a>
 
 Run the following command to download (clone) a copy of the training repo to your workstation.
 
@@ -42,6 +42,7 @@ Note that your prompt changes when you change into a Git repository. The git-ena
 Note: If you know your way around the Git command line you may skip the rest of this section and proceed on to the next lab, Terraform Basics.
 
 ### **Exercise 2:** Git Basics
+#### Set Up Your Username and Email
 Before we start working with the Git command line we need to run two housekeeping commands. These commands identify you so that your code commits can be tagged. Run these two commands in your Shell tab, replacing the name and email with your own:
 
 ```bash
@@ -49,6 +50,7 @@ git config --global user.email "you@example.com"
 git config --global user.name "Your Name"
 ```
 
+#### Git Status
 The first git command you should learn is `git status`. You can always get a summary of the status of your repo with this command. Try it now in your Shell tab:
 
 ```bash
@@ -68,6 +70,8 @@ Now you'll see your prompt change and the status message change to show the untr
 
 Next let's try editing a file. Go into your text editor and open the README.md file inside the terraform-azure-labs directory. Add your name or a short message on the last line of the file. Save the file by clicking the little disk icon on the file tab. CTRL-S or CMD-S keyboard shortcuts may not work here.
 
+![Edit Files in Instruqt](images/edit_readme.png)
+
 Go back to your Shell tab and check the status again:
 
 ```bash
@@ -76,6 +80,7 @@ git status
 
 Now you have one untracked file, and a modified file. Git keeps track of all changes, additions and deletions to the entire repository.
 
+#### Git Add
 Let's add that untracked file so Git can keep track of it. Run the following command:
 
 ```bash
@@ -92,6 +97,7 @@ git status
 
 Now you'll see your two changes sitting in a 'ready to commit' state. This is known as **staging**. Staged items are changes that you want to make but haven't committed yet. It's a bit like a shopping cart at the grocery store. You can add and remove items to your cart before you make the final decision what to purchase.
 
+#### Git Commit
 The next step is to **commit** your pending changes. Use the following command to create a new commit along with a short message explaining what you did:
 
 ```bash
@@ -140,6 +146,7 @@ git config credential.helper 'cache --timeout 14400'
 ```
 
 ### **Exercise 4:** Remote Repositories - Push and Pull
+#### Git Push
 Now let's push our local changes to the remote repo. Run the following command.
 
 ```bash
@@ -152,6 +159,7 @@ NOTE: You can also abbreviate this command by simply typing `git push` which use
 
 You'll be prompted to log onto GitHub to authorize the push. Use your GitHub username along with the personal access token you created in the previous step. Your credentials are now safely cached on the workstation for future commands.
 
+#### Git Pull
 Now let's make a change on the remote repo and pull it into our local copy. Visit your repo fork in a browser and click on the README.md file. 
 
 Next click on the little pencil shaped icon ✏️ on the upper right side of the preview pane. This will allow you to edit the README.md file in place.  Add some more text to the file using the built in text editor. Enter an optional commit message and click on the **Commit changes** button on the bottom of the page.
@@ -207,7 +215,7 @@ Here's a quick overview of the most commonly used Git commands:
 * `git log` - Outputs the log to your terminal. Escape with `ZZ`.
 * `git add .` - Add all files in the current directory and below to staging.
 * `git rm filename` - Removes a file from the staging area.
-* `git commit` - Commits all local changes. Add the `-m` flag to append a message, otherwise a text editor will pop open and prompt you to type in a commit message.
+* `git commit` - Commits all local changes. Use the `-m` flag to append a message.
 * `git push` - Push local changes to remote repo.
 * `git fetch` - Pull changes from a remote repo.
 * `git merge` - Merge changes to current branch.
