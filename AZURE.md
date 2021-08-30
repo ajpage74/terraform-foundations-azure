@@ -18,7 +18,7 @@ Warning: Use an incognito window when you log onto the Azure portal. You can do 
 ## ⚙️ Lab 0: A Taste of Git
 <a href="https://en.wikipedia.org/wiki/Git" target="_blank">Git</a> is the worlds most popular version control system (VCS). We'll be using Git to download all the lab exercises and example code for this workshop. Before we begin working with Terraform let's review some basic Git commands.
 
-### **Exercise 1:** Fork and clone the terraform-azure git repository.
+### **Exercise 1:** Fork and Clone
 
 You'll need a GitHub.com account to do the lab exercises. Visit github.com in a new browser tab and sign in. Visit the following URL and click the **Fork** button in the upper right corner. You can right-click the link to open it in a new window or tab:
 
@@ -122,7 +122,7 @@ git status
 
 Your bash prompt now has a green checkmark again but there's a new symbol `↑·1` that indicates you have changes that have not been pushed to the main repo.
 
-### **Exercise 3:** Remote Repositories - Credentials Config
+### **Exercise 3:** Git Credentials Config
 GitHub passwords are no longer supported for command line access so you'll need to create a Personal Access Token. Visit this link in a web browser and click on the **Generate New Token** button:
 
 https://github.com/settings/tokens
