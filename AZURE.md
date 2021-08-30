@@ -18,6 +18,7 @@ Warning: Use an incognito window when you log onto the Azure portal. You can do 
 ## ⚙️ Lab 0: A Taste of Git
 <a href="https://en.wikipedia.org/wiki/Git" target="_blank">Git</a> is the worlds most popular version control system (VCS). We'll be using Git to download all the lab exercises and example code for this workshop. Before we begin working with Terraform let's review some basic Git commands.
 
+---
 ### **Exercise 1:** Fork and Clone
 
 You'll need a GitHub.com account to do the lab exercises. Visit github.com in a new browser tab and sign in. Visit the following URL and click the **Fork** button in the upper right corner. You can right-click the link to open it in a new window or tab:
@@ -41,6 +42,7 @@ Note that your prompt changes when you change into a Git repository. The git-ena
 
 Note: If you know your way around the Git command line you may skip the rest of this section and proceed on to the next lab, Terraform Basics.
 
+---
 ### **Exercise 2:** Git Basics
 #### Set Up Your Username and Email
 Before we start working with the Git command line we need to run two housekeeping commands. These commands identify you so that your code commits can be tagged. Run these two commands in your Shell tab, replacing the name and email with your own:
@@ -122,6 +124,7 @@ git status
 
 Your bash prompt now has a green checkmark again but there's a new symbol `↑·1` that indicates you have changes that have not been pushed to the main repo.
 
+---
 ### **Exercise 3:** Git Credentials Config
 GitHub passwords are no longer supported for command line access so you'll need to create a Personal Access Token. Visit this link in a web browser and click on the **Generate New Token** button:
 
@@ -141,6 +144,7 @@ Configure the Git Credential Helper so you won't have to copy your token in ever
 git config credential.helper 'cache --timeout 14400'
 ```
 
+---
 ### **Exercise 4:** Remote Repositories - Push and Pull
 #### Git Remote
 When you collaborate with others on the same codebase you'll want a shared main repository that everyone can contribute to. This is known as a remote repository. Check your remote URL with the following command:
@@ -196,6 +200,7 @@ git pull
 
 Note: Advanced git users run `git fetch` and `git pull` often to ensure that they have the latest changes to the codebase.
 
+---
 ### **Exercise 5:** Git Log
 You can output the log for your Git repository with the `git log` command. Try it now. 
 
@@ -211,7 +216,8 @@ This log will show all the commits to your repository since you forked it from t
 git log --oneline --color --graph
 ```
 
-### **Exercise 5:** Git Command Reference
+---
+### Git Command Reference
 Here's a quick overview of the most commonly used Git commands:
 
 * `git status` - Shows the current status of your local repo.
@@ -239,10 +245,8 @@ Terraform uses a catalog of providers to communicate with different cloud platfo
 ### Declarative Infrastructure
 The Terraform language, or HCL, is a Domain Specific Language (DSL) that uses a declarative syntax. Declarative configuration allows you to define the desired final state of your resources without having to define the logic necessary to get there. Terraform determines the order that resources need to be provisioned in based on dependencies. For instance, a network needs to be built before a server can be assigned to it. 
 
-
-
-
-Terraform is a command line tool that is written in Golang. Here is an example of some Terraform code that builds an Azure Resource Group:
+### Executable Documentation
+Terraform code is easy for both humans and machines to process. Take a look at the example below to see the simple declarative syntax:
 
 <!-- We had to use the php syntax highlighter because hcl isn't available. -->
 ```php
