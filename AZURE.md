@@ -342,9 +342,11 @@ Warning: Sensitive credentials such as your Azure Service Principal should alway
 ## ⚙️ Lab 3: Build a Resource Group
 In this lab you'll start with the most basic Azure building block, [the Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal).
 
+---
 ### Log onto the Azure Portal
 Log onto the Azure Portal now using the credentials on the **Azure Portal** tab. Remember to open the portal in an incognito or private window. Once you're logged in type "resource" into the search box at the top. Click on the **Resource groups** link under Services. The Azure portal will say "No resource groups to display" because you haven't created anything yet. Leave this window open and return to your Text Editor tab in Instruqt.
 
+---
 ### Update the main.tf File
 Your **main.tf** file currently has two blocks of code in it, the `terraform` block and the `provider` block. Next you'll add your first resource to the file.
 
@@ -356,6 +358,7 @@ Add a new resource group called "tflab" to your main.tf file. Don't forget to cl
 
 Note: If you want to try a different Azure location you can find a list of available options on the [Azure Regions page](https://azure.microsoft.com/en-us/global-infrastructure/geographies/#geographies).
 
+---
 ### Run Terraform Plan
 Now you're ready for your next Terraform command, `terraform plan`. This is a dry run where you can see what might change before you approve the changes.
 
@@ -381,6 +384,7 @@ Terraform will perform the following actions:
 Plan: 1 to add, 0 to change, 0 to destroy.
 ```
 
+---
 ### Run Terraform Apply
 Apply your changes with the `terraform apply` command. You'll need to type **yes** to the "Are you sure?" prompt.
 
@@ -392,11 +396,13 @@ Now head back over to the Azure Portal and click the **Refresh** link near the t
 
 ![Azure Resource Group in Portal](images/azure_resource_group.png)
 
+---
 ### Create Config Drift
 Go ahead and delete this resource group from the Azure portal. You can do this by clicking on the resource group's name and then selecting the **Delete resource group** option from the top nav bar. You'll need to type in the resource group name to confirm the deletion. This simulates a manual change being made outside of Terraform's control.
 
 ![Delete Resource Group](images/delete_resource_group.png)
 
+---
 ### Remediate Config Drift
 Try running another plan and apply and see what happens:
 ```bash
