@@ -350,6 +350,8 @@ Your **main.tf** file currently has two blocks of code in it, the `terraform` bl
 
 Visit the `azurerm_resource_group` docs page and view the example usage.
 
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
+
 Add a new resource group called "tflab" to your main.tf file. Don't forget to click on the save icon.
 
 Note: If you want to try a different Azure location you can find a list of available options on the [Azure Regions page](https://azure.microsoft.com/en-us/global-infrastructure/geographies/#geographies).
@@ -390,12 +392,12 @@ Now head back over to the Azure Portal and click the **Refresh** link near the t
 
 ![Azure Resource Group in Portal](images/azure_resource_group.png)
 
-# Create Config Drift
+### Create Config Drift
 Go ahead and delete this resource group from the Azure portal. You can do this by clicking on the resource group's name and then selecting the **Delete resource group** option from the top nav bar. You'll need to type in the resource group name to confirm the deletion. This simulates a manual change being made outside of Terraform's control.
 
 ![Delete Resource Group](images/delete_resource_group.png)
 
-# Remediate Config Drift
+### Remediate Config Drift
 Try running another plan and apply and see what happens:
 ```bash
 terraform plan
