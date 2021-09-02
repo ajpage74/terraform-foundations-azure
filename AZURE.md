@@ -250,7 +250,6 @@ The Terraform language, or HCL, is a Domain Specific Language (DSL) that uses a 
 ### Executable Documentation
 Terraform code is easy for both humans and machines to process. Take a look at the example below to see the simple declarative syntax:
 
-<!-- We had to use the php syntax highlighter because hcl isn't available. -->
 ```php
 resource "azurerm_resource_group" "example" {
   name     = "example"
