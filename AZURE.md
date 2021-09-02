@@ -17,7 +17,293 @@ Warning: Use an incognito window when you log onto the Azure portal. You can do 
 
 ![incognito_mode](images/incognito_mode.png)
 
-## ⚙️ Lab 0: A Taste of Git
+## ⚙️ Lab 1: Terraform Basics
+### What is Terraform?
+Terraform is an Infrastructure-as-Code (IaC) software tool created by HashiCorp and released in 2014. Terraform allows users to define and provision infrastructure using a declarative configuration language known as HashiCorp Configuration Language (HCL). Terraform manages infrastructure such as public and private cloud instances or VMs, network appliances, Software-as-a-Service (SaaS) and Platform-as-a-Service (PaaS) resources.
+
+### Modular and Extendible
+Terraform uses a catalog of providers to communicate with different cloud platforms and APIs. The rich provider ecosystem supports a wide variety of different types of cloud and on-premise resources.
+
+### Declarative Infrastructure
+The Terraform language, or HCL, is a Domain Specific Language (DSL) that uses a declarative syntax. Declarative configuration allows you to define the desired final state of your resources without having to define the logic necessary to get there. Terraform determines the order that resources need to be provisioned in based on dependencies. For instance, a network needs to be built before a server can be assigned to it. 
+
+### Executable Documentation
+Terraform code is easy for both humans and machines to process. Take a look at the example below to see the simple declarative syntax:
+
+```php
+resource "azurerm_resource_group" "example" {
+  name     = "example"
+  location = "Central US"
+}
+```
+
+### Terraform Usage
+Let's try a few basic commands. Open the Shell tab in your lab environment and run the following commands:
+
+The Unix `which` command will show you where Terraform is installed. Powershell users can use `Get-Command` here instead. 
+```bash
+which terraform
+```
+
+The `file` command tells us what type of file Terraform is. Note that it is an *executable* which means we can run it from the command line.
+```bash
+file /usr/local/bin/terraform
+```
+
+Try running `terraform version` next. This will output the version of Terraform you have installed.
+```bash
+terraform version
+```
+
+This useful command shows all the subcommands supported by the `terraform` command. We'll explore some of these subcommands in the next section.
+```bash
+terraform -help
+```
+
+Let's create a new Terraform workspace to do our lab work in. Change back into your `/root/workspace` directory and create a new directory called `sandbox`. Use the cd command to move into the sandbox directory:
+
+```bash
+cd /root/workspace
+mkdir sandbox
+cd sandbox
+```
+
+Terraform code files always end in a `.tf` extension. By convention, the main configuration file is called `main.tf`.
+
+Create a new file in your sandbox directory called main.tf:
+```bash
+touch main.tf
+```
+
+Your provider configuration and Terraform code will be added to this file in the next labs.
+
+## ⚙️ Lab 2: The Azure Provider
+In order for Terraform to do anything useful, it needs a [provider](https://www.terraform.io/docs/language/providers/index.html). Terraform Providers are the plugins that connect the Terraform command line tool to various APIs and SaaS platforms. Take a moment to browse the public provider registry now:
+
+https://registry.terraform.io/browse/providers
+
+Today you'll be using the Azure provider to build resources in your Azure Cloud sandbox.  Visit the Terraform docs example for the Azure provider here:
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#example-usage
+
+Copy the `terraform` and `provider` blocks into your **main.tf** file. You do not need the rest of the example code yet. Use the save icon to save your file.
+
+Now you're ready to initialize your workspace. Run the `terraform init` command:
+```bash
+terraform init
+```
+
+You should see output like this:
+```
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding hashicorp/azurerm versions matching "2.46.0"...
+- Installing hashicorp/azurerm v2.46.0...
+- Installed hashicorp/azurerm v2.46.0 (signed by HashiCorp)
+```
+
+Terraform read your **main.tf** file and downloaded the azurerm provider. Run the `tree` command to see the files that were installed:
+```bash
+tree .terraform
+```
+
+![Tree Command Output](images/tree_command.png)
+
+Terraform stores all its providers and modules in a hidden directory named `.terraform`. Now that you have the provider installed you're ready to start building on Azure!
+
+In order to use the Azure provider, Terraform needs to authenticate against the Azure Cloud API. The simplest way to authenticate Terraform is to [use an Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret). Fortunately we've already taken care of this part for you in your lab environment. You can view your Azure Service Principal credentials with the following commands:
+
+```bash
+echo $ARM_CLIENT_ID
+echo $ARM_CLIENT_SECRET
+```
+
+Warning: Sensitive credentials such as your Azure Service Principal should always be stored safely, and **never in your Terraform code.** Do not ever store Azure credentials in your `*.tf` files or variables files. They should always be set as environment variables, which we've already done for you in your Shell environment. 
+
+## ⚙️ Lab 3: Build a Resource Group
+In this lab you'll start with the most basic Azure building block, [the Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal).
+
+---
+### Log onto the Azure Portal
+Log onto the Azure Portal now using the credentials on the **Azure Portal** tab. Remember to open the portal in an incognito or private window. Once you're logged in type "resource" into the search box at the top. Click on the **Resource groups** link under Services. The Azure portal will say "No resource groups to display" because you haven't created anything yet. Leave this window open and return to your Text Editor tab in Instruqt.
+
+---
+### Update the main.tf File
+Your **main.tf** file currently has two blocks of code in it, the `terraform` block and the `provider` block. Next you'll add your first resource to the file.
+
+Visit the `azurerm_resource_group` docs page and view the example usage.
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
+
+Add a new resource group called **tflab_rg** to your main.tf file. Don't forget to click on the save icon. You must use the name **tflab_rg** here, please don't choose another name.
+
+Note: If you want to try a different Azure location you can find a list of available options on the [Azure Regions page](https://azure.microsoft.com/en-us/global-infrastructure/geographies/#geographies).
+
+---
+### Run Terraform Plan
+Now you're ready for your next Terraform command, `terraform plan`. This is a dry run where you can see what might change before you approve the changes.
+
+```bash
+terraform plan
+```
+
+The output will look like this:
+```
+Terraform used the selected providers to generate the following execution plan. Resource actions are
+indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_resource_group.tflab will be created
+  + resource "azurerm_resource_group" "tflab_rg" {
+      + id       = (known after apply)
+      + location = "centralus"
+      + name     = "tflab_rg"
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+```
+
+---
+### Run Terraform Apply
+Apply your changes with the `terraform apply` command. You'll need to type **yes** to the "Are you sure?" prompt.
+
+```bash
+terraform apply
+```
+
+Now head back over to the Azure Portal and click the **Refresh** link near the top of the page. You should see a new resource group called **tflab_rg** appear on the list.
+
+Note: It can take up to a minute for the resource group to show up in the portal. If you don't see it simply hit the refresh button again.
+
+<!--TODO - update this screenshot.-->
+![Azure Resource Group in Portal](images/azure_resource_group.png)
+
+---
+### Create Config Drift
+Go ahead and delete this resource group from the Azure portal. You can do this by clicking on the resource group's name and then selecting the **Delete resource group** option from the top nav bar. You'll need to type in the resource group name to confirm the deletion. This simulates a manual change being made outside of Terraform's control.
+
+<!--TODO - update this screenshot.-->
+![Delete Resource Group](images/delete_resource_group.png)
+
+---
+### Remediate Config Drift
+Try running another plan and apply and see what happens:
+
+```bash
+terraform plan
+terraform apply
+```
+
+Terraform was able to detect that someone tampered with the configuration and deleted our resource group:
+
+```
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply":
+```
+
+Note: Terraform is *idempotent* which means it will always try to create the same target state for your infrastructure, even if there is configuration drift.
+
+Good job! You've just built (and rebuilt) your first Terraform resource!
+
+### Terraform Apply with No Changes
+If your infrastructure is already in the correct state, Terraform will not make any changes. Try another apply command and see what happens:
+
+```bash
+terraform apply
+```
+
+Terraform reports back that no changes are required:
+
+```
+No changes. Your infrastructure matches the configuration.
+```
+
+In the next section you'll add another resource to your code and learn how to connect dependent resources to one another.
+
+## ⚙️ Lab 4: Add a Virtual Network
+A resource group is like a container for Azure resources. Let's add a virtual network to the resource group you created in the previous lab. Copy the following code into your **main.tf** file:
+
+```php
+resource "azurerm_virtual_network" "tflab_vn" {
+  name                = "tflab-virtual-network"
+  location            = REPLACE_ME
+  resource_group_name = REPLACE_ME
+  address_space       = ["10.0.0.0/16"]
+}
+```
+
+Your task is to figure out what to enter for the location and resource_group_name parameters. Have a look at the example docs for configuring the azure_virtual_network resource:
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network#example-usage
+
+Hint: The `location` and `resource_group_name` need to refer to the name and location of the resource group you added in the previous lab.
+
+Once you think you have the answer correct, run a `terraform apply` command and see if your virtual network builds. You may use the -auto-approve flag to bypass the yes/no approval question:
+
+```bash
+terraform apply -auto-approve
+```
+
+Great work. You now have a virtual network. In the next section we'll get more practice with interpolation by adding a subnet.
+
+## ⚙️ Lab 5: Create a Subnet
+This lab exercise is very similar to the previous one. Copy the following code into your main.tf file and update the REPLACE_ME values:
+
+```php
+resource "azurerm_subnet" "tflab_sn" {
+  name                 = "tflab-subnet"
+  resource_group_name  = REPLACE_ME
+  virtual_network_name = REPLACE_ME
+  address_prefixes     = ["10.0.1.0/24"]
+}
+```
+
+Look at the example documentation for the azurerm_subnet resource here:
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet
+
+As before, run a `terraform apply -auto-approve` to check your work. Visit the Azure portal page for your resource group and verify that you now have a virtual network with a single subnet. 
+
+![Portal with Subnet](images/portal_with_subnet.png)
+
+## ⚙️ Lab 6: Tag Your Resources
+
+
+## ⚙️ Lab 7: Working with Variables
+
+
+## ⚙️ Lab 8: Data Sources
+<!-- 
+Use this for the lab:
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/platform_image
+-->
+
+## ⚙️ Lab 9: Local Values
+
+
+## ⚙️ Lab 10: Built-in Functions
+
+
+## ⚙️ Lab 10: Terraform Modules
+
+
+## ⚙️ Lab 11: Terraform State
+
+
+## ⚙️ Lab 12: Terraform Cloud & Remote State
+
+
+
+## ⚙️ Lab 13: Version Control System (VCS)
+
+
+
+## ⚙️ Lab 13: VCS Driven Collaboration
+
+
+## ⚙️ Appendix A: A Taste of Git
 <a href="https://en.wikipedia.org/wiki/Git" target="_blank">Git</a> is the worlds most popular version control system (VCS). We'll be using Git to download all the lab exercises and example code for this workshop. Before we begin working with Terraform let's review some basic Git commands.
 
 ---
@@ -237,290 +523,4 @@ Here's a quick overview of the most commonly used Git commands:
 * `git remote` - Work with remote repositories.
 * `git checkout` - Use to switch branches or revert changes to a file.
 
-## ⚙️ Lab 1: Terraform Basics
-### What is Terraform?
-Terraform is an Infrastructure-as-Code (IaC) software tool created by HashiCorp and released in 2014. Terraform allows users to define and provision infrastructure using a declarative configuration language known as HashiCorp Configuration Language (HCL). Terraform manages infrastructure such as public and private cloud instances or VMs, network appliances, Software-as-a-Service (SaaS) and Platform-as-a-Service (PaaS) resources.
-
-### Modular and Extendible
-Terraform uses a catalog of providers to communicate with different cloud platforms and APIs. The rich provider ecosystem supports a wide variety of different types of cloud and on-premise resources.
-
-### Declarative Infrastructure
-The Terraform language, or HCL, is a Domain Specific Language (DSL) that uses a declarative syntax. Declarative configuration allows you to define the desired final state of your resources without having to define the logic necessary to get there. Terraform determines the order that resources need to be provisioned in based on dependencies. For instance, a network needs to be built before a server can be assigned to it. 
-
-### Executable Documentation
-Terraform code is easy for both humans and machines to process. Take a look at the example below to see the simple declarative syntax:
-
-```php
-resource "azurerm_resource_group" "example" {
-  name     = "example"
-  location = "Central US"
-}
-```
-
-### Terraform Usage
-Let's try a few basic commands. Open the Shell tab in your lab environment and run the following commands:
-
-The Unix `which` command will show you where Terraform is installed. Powershell users can use `Get-Command` here instead. 
-```bash
-which terraform
-```
-
-The `file` command tells us what type of file Terraform is. Note that it is an *executable* which means we can run it from the command line.
-```bash
-file /usr/local/bin/terraform
-```
-
-Try running `terraform version` next. This will output the version of Terraform you have installed.
-```bash
-terraform version
-```
-
-This useful command shows all the subcommands supported by the `terraform` command. We'll explore some of these subcommands in the next section.
-```bash
-terraform -help
-```
-
-Let's create a new Terraform workspace to do our lab work in. Change back into your `/root/workspace` directory and create a new directory called `sandbox`. Use the cd command to move into the sandbox directory:
-
-```bash
-cd /root/workspace
-mkdir sandbox
-cd sandbox
-```
-
-Terraform code files always end in a `.tf` extension. By convention, the main configuration file is called `main.tf`.
-
-Create a new file in your sandbox directory called main.tf:
-```bash
-touch main.tf
-```
-
-Your provider configuration and Terraform code will be added to this file in the next labs.
-
-## ⚙️ Lab 2: The Azure Provider
-In order for Terraform to do anything useful, it needs a [provider](https://www.terraform.io/docs/language/providers/index.html). Terraform Providers are the plugins that connect the Terraform command line tool to various APIs and SaaS platforms. Take a moment to browse the public provider registry now:
-
-https://registry.terraform.io/browse/providers
-
-Today you'll be using the Azure provider to build resources in your Azure Cloud sandbox.  Visit the Terraform docs example for the Azure provider here:
-https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#example-usage
-
-Copy the `terraform` and `provider` blocks into your **main.tf** file. You do not need the rest of the example code yet. Use the save icon to save your file.
-
-Now you're ready to initialize your workspace. Run the `terraform init` command:
-```bash
-terraform init
-```
-
-You should see output like this:
-```
-Initializing the backend...
-
-Initializing provider plugins...
-- Finding hashicorp/azurerm versions matching "2.46.0"...
-- Installing hashicorp/azurerm v2.46.0...
-- Installed hashicorp/azurerm v2.46.0 (signed by HashiCorp)
-```
-
-Terraform read your **main.tf** file and downloaded the azurerm provider. Run the `tree` command to see the files that were installed:
-```bash
-tree .terraform
-```
-
-![Tree Command Output](images/tree_command.png)
-
-Terraform stores all its providers and modules in a hidden directory named `.terraform`. Now that you have the provider installed you're ready to start building on Azure!
-
-In order to use the Azure provider, Terraform needs to authenticate against the Azure Cloud API. The simplest way to authenticate Terraform is to [use an Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret). Fortunately we've already taken care of this part for you in your lab environment. You can view your Azure Service Principal credentials with the following commands:
-
-```bash
-echo $ARM_CLIENT_ID
-echo $ARM_CLIENT_SECRET
-```
-
-Warning: Sensitive credentials such as your Azure Service Principal should always be stored safely, and **never in your Terraform code.** Do not ever store Azure credentials in your `*.tf` files or variables files. They should always be set as environment variables, which we've already done for you in your Shell environment. 
-
-## ⚙️ Lab 3: Build a Resource Group
-In this lab you'll start with the most basic Azure building block, [the Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal).
-
----
-### Log onto the Azure Portal
-Log onto the Azure Portal now using the credentials on the **Azure Portal** tab. Remember to open the portal in an incognito or private window. Once you're logged in type "resource" into the search box at the top. Click on the **Resource groups** link under Services. The Azure portal will say "No resource groups to display" because you haven't created anything yet. Leave this window open and return to your Text Editor tab in Instruqt.
-
----
-### Update the main.tf File
-Your **main.tf** file currently has two blocks of code in it, the `terraform` block and the `provider` block. Next you'll add your first resource to the file.
-
-Visit the `azurerm_resource_group` docs page and view the example usage.
-
-https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
-
-Add a new resource group called **tflab_rg** to your main.tf file. Don't forget to click on the save icon. You must use the name **tflab_rg** here, please don't choose another name.
-
-Note: If you want to try a different Azure location you can find a list of available options on the [Azure Regions page](https://azure.microsoft.com/en-us/global-infrastructure/geographies/#geographies).
-
----
-### Run Terraform Plan
-Now you're ready for your next Terraform command, `terraform plan`. This is a dry run where you can see what might change before you approve the changes.
-
-```bash
-terraform plan
-```
-
-The output will look like this:
-```
-Terraform used the selected providers to generate the following execution plan. Resource actions are
-indicated with the following symbols:
-  + create
-
-Terraform will perform the following actions:
-
-  # azurerm_resource_group.tflab will be created
-  + resource "azurerm_resource_group" "tflab_rg" {
-      + id       = (known after apply)
-      + location = "centralus"
-      + name     = "tflab_rg"
-    }
-
-Plan: 1 to add, 0 to change, 0 to destroy.
-```
-
----
-### Run Terraform Apply
-Apply your changes with the `terraform apply` command. You'll need to type **yes** to the "Are you sure?" prompt.
-
-```bash
-terraform apply
-```
-
-Now head back over to the Azure Portal and click the **Refresh** link near the top of the page. You should see a new resource group called **tflab_rg** appear on the list.
-
-Note: It can take up to a minute for the resource group to show up in the portal. If you don't see it simply hit the refresh button again.
-
-<!--TODO - update this screenshot.-->
-![Azure Resource Group in Portal](images/azure_resource_group.png)
-
----
-### Create Config Drift
-Go ahead and delete this resource group from the Azure portal. You can do this by clicking on the resource group's name and then selecting the **Delete resource group** option from the top nav bar. You'll need to type in the resource group name to confirm the deletion. This simulates a manual change being made outside of Terraform's control.
-
-<!--TODO - update this screenshot.-->
-![Delete Resource Group](images/delete_resource_group.png)
-
----
-### Remediate Config Drift
-Try running another plan and apply and see what happens:
-```bash
-terraform plan
-terraform apply
-```
-
-Terraform was able to detect that someone tampered with the configuration and deleted our resource group:
-
-```
-Note: Objects have changed outside of Terraform
-
-Terraform detected the following changes made outside of Terraform since the last "terraform apply":
-```
-
-Note: Terraform is *idempotent* which means it will always try to create the same target state for your infrastructure, even if there is configuration drift.
-
-Good job! You've just built (and rebuilt) your first Terraform resource!
-
-### Terraform Apply with No Changes
-If your infrastructure is already in the correct state, Terraform will not make any changes. Try another apply command and see what happens:
-
-```bash
-terraform apply
-```
-
-Terraform reports back that no changes are required:
-```
-No changes. Your infrastructure matches the configuration.
-```
-
-In the next section you'll add another resource to your code and learn how to connect dependent resources to one another.
-
-## ⚙️ Lab 4: Add a Virtual Network
-A resource group is like a container for Azure resources. Let's add a virtual network to the resource group you created in the previous lab. Copy the following code into your **main.tf** file:
-
-```php
-resource "azurerm_virtual_network" "tflab_vn" {
-  name                = "tflab-virtual-network"
-  location            = REPLACE_ME
-  resource_group_name = REPLACE_ME
-  address_space       = ["10.0.0.0/16"]
-}
-```
-
-Your task is to figure out what to enter for the location and resource_group_name parameters. Have a look at the example docs for configuring the azure_virtual_network resource:
-
-https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network#example-usage
-
-Hint: The `location` and `resource_group_name` need to refer to the name and location of the resource group you added in the previous lab.
-
-Once you think you have the answer correct, run a `terraform apply` command and see if your virtual network builds. You may use the -auto-approve flag to bypass the yes/no approval question:
-
-```bash
-terraform apply -auto-approve
-```
-
-Great work. You now have a virtual network. In the next section we'll get more practice with interpolation by adding a subnet.
-
-## ⚙️ Lab 5: Create a Subnet
-This lab exercise is very similar to the previous one. Copy the following code into your main.tf file and update the REPLACE_ME values:
-
-```php
-resource "azurerm_subnet" "tflab_sn" {
-  name                 = "tflab-subnet"
-  resource_group_name  = REPLACE_ME
-  virtual_network_name = REPLACE_ME
-  address_prefixes     = ["10.0.1.0/24"]
-}
-```
-
-Look at the example documentation for the azurerm_subnet resource here:
-https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet
-
-As before, run a `terraform apply -auto-approve` to check your work. Visit the Azure portal page for your resource group and verify that you now have a virtual network with a single subnet. 
-
-![Portal with Subnet](images/portal_with_subnet.png)
-
-## ⚙️ Lab 6: Tag Your Resources
-
-
-## ⚙️ Lab 7: Working with Variables
-
-
-## ⚙️ Lab 8: Data Sources
-<!-- 
-Use this for the lab:
-https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/platform_image
--->
-
-## ⚙️ Lab 9: Local Values
-
-
-## ⚙️ Lab 10: Built-in Functions
-
-
-## ⚙️ Lab 10: Terraform Modules
-
-
-## ⚙️ Lab 11: Terraform State
-
-
-## ⚙️ Lab 12: Terraform Cloud & Remote State
-
-
-
-## ⚙️ Lab 13: Version Control System (VCS)
-
-
-
-## ⚙️ Lab 13: VCS Driven Collaboration
-
-
-
-
-## ❓ Appendix A: The Answers
+## ❓ Appendix B: The Answers
