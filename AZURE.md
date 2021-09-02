@@ -17,6 +17,7 @@ Warning: Use an incognito window when you log onto the Azure portal. You can do 
 
 ![incognito_mode](images/incognito_mode.png)
 
+---
 ## ⚙️ Lab 1: Terraform Basics
 ### What is Terraform?
 Terraform is an Infrastructure-as-Code (IaC) software tool created by HashiCorp and released in 2014. Terraform allows users to define and provision infrastructure using a declarative configuration language known as HashiCorp Configuration Language (HCL). Terraform manages infrastructure such as public and private cloud instances or VMs, network appliances, Software-as-a-Service (SaaS) and Platform-as-a-Service (PaaS) resources.
@@ -77,6 +78,7 @@ touch main.tf
 
 Your provider configuration and Terraform code will be added to this file in the next labs.
 
+---
 ## ⚙️ Lab 2: The Azure Provider
 In order for Terraform to do anything useful, it needs a [provider](https://www.terraform.io/docs/language/providers/index.html). Terraform Providers are the plugins that connect the Terraform command line tool to various APIs and SaaS platforms. Take a moment to browse the public provider registry now:
 
@@ -120,6 +122,7 @@ echo $ARM_CLIENT_SECRET
 
 Warning: Sensitive credentials such as your Azure Service Principal should always be stored safely, and **never in your Terraform code.** Do not ever store Azure credentials in your `*.tf` files or variables files. They should always be set as environment variables, which we've already done for you in your Shell environment. 
 
+---
 ## ⚙️ Lab 3: Build a Resource Group
 In this lab you'll start with the most basic Azure building block, [the Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal).
 
@@ -221,6 +224,7 @@ No changes. Your infrastructure matches the configuration.
 
 In the next section you'll add another resource to your code and learn how to connect dependent resources to one another.
 
+---
 ## ⚙️ Lab 4: Add a Virtual Network
 A resource group is like a container for Azure resources. Let's add a virtual network to the resource group you created in the previous lab. Copy the following code into your **main.tf** file:
 
@@ -247,6 +251,7 @@ terraform apply -auto-approve
 
 Great work. You now have a virtual network. In the next section we'll get more practice with interpolation by adding a subnet.
 
+---
 ## ⚙️ Lab 5: Create a Subnet
 This lab exercise is very similar to the previous one. Copy the following code into your main.tf file and update the REPLACE_ME values:
 
@@ -266,39 +271,40 @@ As before, run a `terraform apply -auto-approve` to check your work. Visit the A
 
 ![Portal with Subnet](images/portal_with_subnet.png)
 
+---
 ## ⚙️ Lab 6: Tag Your Resources
 
-
+---
 ## ⚙️ Lab 7: Working with Variables
 
-
+---
 ## ⚙️ Lab 8: Data Sources
 <!-- 
 Use this for the lab:
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/platform_image
 -->
-
+---
 ## ⚙️ Lab 9: Local Values
 
-
+---
 ## ⚙️ Lab 10: Built-in Functions
 
-
+---
 ## ⚙️ Lab 10: Terraform Modules
 
-
+---
 ## ⚙️ Lab 11: Terraform State
 
-
+---
 ## ⚙️ Lab 12: Terraform Cloud & Remote State
 
 
-
+---
 ## ⚙️ Lab 13: Version Control System (VCS)
 
 
-
-## ⚙️ Lab 13: VCS Driven Collaboration
+---
+## ⚙️ Lab 14: VCS Driven Collaboration
 
 
 ## ⚙️ Appendix A: A Taste of Git
