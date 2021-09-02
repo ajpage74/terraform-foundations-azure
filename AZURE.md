@@ -273,16 +273,108 @@ As before, run a `terraform apply -auto-approve` to check your work. Visit the A
 
 ---
 ## ⚙️ Lab 6: Tag Your Resources
+Azure allows you to tag any resource with key/value pairs of text. You can use tags to keep track of resources and identify who built them, what they are for, what environment they belong in and more. Tags can be used on almost every Terraform resource in the Azure provider. Here's an example to show you how tags are formatted:
+
+```php
+tags = {
+  key1 = "value1"
+  key2 = "value2"
+  key3 = "More text here."
+}
+```
+
+Simple, right? Add the following tags to your virtual network resource:
+
+```
+environment = "Production"
+owner = "Your Name"
+```
+
+Hint: The tags block must be placed *inside* of the resource block.
+
+Once you have your resources tagged properly check your work in the Azure portal. From this point forward we're not going to remind you to run `terraform apply` since you already know the process.
 
 ---
 ## ⚙️ Lab 7: Working with Variables
+So far all our settings have been hard-coded into our Terraform configs. You'll probably want to make your code more flexible for different users and environments, and that's where variables come in. Variables allow you to replace those hard-coded settings with placeholders that users can change to suit their needs.
+
+---
+### Terraform Variables Basics
+In your Shell tab create a new file called `variables.tf` with the following command:
+
+```bash
+touch variables.tf
+```
+
+Now head back into your Text Editor tab and open the file. Copy the following contents into `variables.tf`:
+
+```php
+variable "location" {
+  default = "Central US"
+  description = "Azure location where resources should be built."
+}
+```
+
+Save the file. Now open the `main.tf` file and find the `location` line in your azurerm_resource_group resource. It should say "West Europe" or "Central US" or similar. Next you're going to replace that hard coded variable so your resource looks like this:
+
+```php
+resource "azurerm_resource_group" "tflab_rg" {
+  name     = "tflab_rg"
+  location = var.location
+}
+```
+
+See how the `var.location` reference has replaced the plain text? Terraform will now allow you to insert any valid location into this space at run time. If the user doesn't choose a value for location it will use the default that you defined in the **variables.tf** file.
+
+Run an apply and see if anything changes. Next try changing the default location in your variables file to something different, for example `East US`. Run `terraform apply` again. What happens?
+
+---
+### Create an Owner Variable
+Using what you learned in the previous lab, create a new variable called **owner** and set the default to your own name. Replace the owner tag text in your **main.tf** code with a variable.
+
+---
+### Set Variables with the CLI
+You can override any default variable with the `-var` command line flag. For example:
+
+```bash
+terraform apply -var "location=Central US"
+```
+
+---
+### Set Variables as Environment Vars
+The second way to configure Terraform variables is through the use of a specially formatted system environment variable. Both Linux and Windows support the use of environment variables, sometimes called "env vars". Terraform will read and ingest any system environment variable that begins with the `TF_VAR_` prefix. Configure a new environment variable in your shell with the following command:
+
+```bash
+export TF_VAR_location="East US"
+```
+
+Now try running an apply. 
+
+---
+### Set Variables in a tfvars File
+Another way to configure variables is inside of a tfvars file. Think of this as your personal settings file, where you can override the defaults that we created in variables.tf.
+
+Create a new file called **terraform.tfvars** in your workspace. Put the following line into the file:
+
+```php
+location = "Central US"
+```
+
+Save the file and run an apply. What happens?
+
+---
+### Variable Precedence
+So far you've seen four different places to configure variables. You may be curious which will take precedence if they are set in more than one location. Here's a handy list to show you which setting will "win" the battle. Settings on top will override those lower on the list:
+
+1. Command line flag - run as a command line switch
+2. Configuration file - set in your terraform.tfvars file
+3. Environment variable - part of your shell environment
+4. Default Config - default value in variables.tf
+5. User manual entry - if not specified, prompt the user for entry
 
 ---
 ## ⚙️ Lab 8: Data Sources
-<!-- 
-Use this for the lab:
-https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/platform_image
--->
+
 ---
 ## ⚙️ Lab 9: Local Values
 
