@@ -328,6 +328,8 @@ See how the `var.location` reference has replaced the plain text? Terraform will
 
 Run an apply and see if anything changes. Next try changing the default location in your variables file to something different, for example `East US`. Run `terraform apply` again. What happens?
 
+Warning: Once in a while Terraform may become stuck if you change the location parameter and try to rebuild everything. If this happens simply run a `terraform destroy` and rebuild with another `terraform apply`.
+
 ---
 ### Create an Owner Variable
 Using what you learned in the previous lab, create a new variable called **owner** and set the default to your own name. Replace the owner tag text in your **main.tf** code with a variable.
@@ -342,7 +344,7 @@ terraform apply -var "owner=Bugs Bunny"
 
 ---
 ### Set Variables as Environment Vars
-The second way to configure Terraform variables is through the use of a specially formatted system environment variable. Both Linux and Windows support the use of environment variables, sometimes called "env vars". Terraform will read and ingest any system environment variable that begins with the `TF_VAR_` prefix. Configure a new environment variable in your shell with the following command:
+The second way to configure Terraform variables is through the use of a specially formatted system environment variable. Both Linux and Windows support the use of environment variables, sometimes called "env vars". Terraform will read any system environment variable that begins with the `TF_VAR_` prefix. Configure a new environment variable in your shell with the following command:
 
 ```bash
 export TF_VAR_owner="Donald Duck"
@@ -364,7 +366,7 @@ Save the file and run an apply. What happens?
 
 ---
 ### Variable Precedence
-So far you've seen four different places to configure variables. You may be curious which will take precedence if they are set in more than one location. Here's a handy list to show you which setting will win the battle. Settings on top will override those lower on the list:
+So far you've learned four different ways to configure variables. You may be curious which will take precedence if they are set in more than one location. Here's a handy list to show you which setting will win the battle. Settings on top will override those lower on the list:
 
 1. Command line flag - run as a command line switch
 2. Configuration file - set in your terraform.tfvars file
