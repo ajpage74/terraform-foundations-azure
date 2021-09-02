@@ -177,14 +177,12 @@ Now head back over to the Azure Portal and click the **Refresh** link near the t
 
 Note: It can take up to a minute for the resource group to show up in the portal. If you don't see it simply hit the refresh button again.
 
-<!--TODO - update this screenshot.-->
 ![Azure Resource Group in Portal](images/azure_resource_group.png)
 
 ---
 ### Create Config Drift
 Go ahead and delete this resource group from the Azure portal. You can do this by clicking on the resource group's name and then selecting the **Delete resource group** option from the top nav bar. You'll need to type in the resource group name to confirm the deletion. This simulates a manual change being made outside of Terraform's control.
 
-<!--TODO - update this screenshot.-->
 ![Delete Resource Group](images/delete_resource_group.png)
 
 ---
