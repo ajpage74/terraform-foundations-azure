@@ -6,7 +6,9 @@ Welcome to Terraform Foundations on Azure. Follow the instructions on this page 
 ## 👩🏾‍🔬 Your Lab Environment
 Your lab environment is running on the <a href="https://instruqt.com" target="_blank">Instruqt</a> platform. Instruqt provides sandbox cloud environments where you can experiment and learn how to use HashiCorp tools like Terraform. You have four tabs in your learning environment:
 
-* **Instructions** - All your lab instructions are contained on this page, which opens in a new tab or window. If you have enough room on your desktop we recommend dragging the instructions tab into a separate window for easy reference.
+![Instruqt Navigation Tabs](images/four_tabs.png)
+
+* **Instructions** - All your lab instructions are contained on this page, which opens in a new tab or window. Keep these instructions handy for easy reference.
 * **Text Editor** - This tab contains a simple programmer's text editor. Use the file navigation menu on the left side of the editor to browse to files that you wish to edit.
 * **Shell** - This is the bash shell for your Ubuntu 18.04 workstation. We've pre-installed a bunch of popular devops tools such as terraform, git, docker, and the `az` Azure CLI tool.
 * **Azure Portal** - This tab contains a link and credentials for your Azure sandbox subscription.
@@ -25,7 +27,7 @@ You'll need a GitHub.com account to do the lab exercises. Visit github.com in a 
 
 https://github.com/hashicorp/terraform-azure-labs
 
-Run the following command to download (clone) a copy of the training repo to your workstation.
+Select the Shell tab and run the following command to download (clone) a copy of the training repo to your workstation.
 
 ```bash
 git clone https://github.com/YOURGITUSERNAME/terraform-azure-labs
@@ -83,7 +85,7 @@ git status
 Now you have one untracked file, and a modified file. Git keeps track of all changes, additions and deletions to the entire repository.
 
 #### Git Add
-Let's add that untracked file so Git can keep track of it. Run the following command:
+Next we'll add both the changed file and the new file so Git can keep track of them. Run the following command:
 
 ```bash
 git add .
@@ -276,7 +278,7 @@ terraform version
 
 This useful command shows all the subcommands supported by the `terraform` command. We'll explore some of these subcommands in the next section.
 ```bash
-terraform help
+terraform -help
 ```
 
 Let's create a new Terraform workspace to do our lab work in. Change back into your `/root/workspace` directory and create a new directory called `sandbox`. Use the cd command to move into the sandbox directory:
@@ -354,7 +356,7 @@ Visit the `azurerm_resource_group` docs page and view the example usage.
 
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
 
-Add a new resource group called "tflab" to your main.tf file. Don't forget to click on the save icon.
+Add a new resource group called **tflab_rg** to your main.tf file. Don't forget to click on the save icon. You must use the name **tflab_rg** here, please don't choose another name.
 
 Note: If you want to try a different Azure location you can find a list of available options on the [Azure Regions page](https://azure.microsoft.com/en-us/global-infrastructure/geographies/#geographies).
 
@@ -375,10 +377,10 @@ indicated with the following symbols:
 Terraform will perform the following actions:
 
   # azurerm_resource_group.tflab will be created
-  + resource "azurerm_resource_group" "tflab" {
+  + resource "azurerm_resource_group" "tflab_rg" {
       + id       = (known after apply)
       + location = "centralus"
-      + name     = "tflab"
+      + name     = "tflab_rg"
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.
@@ -392,14 +394,18 @@ Apply your changes with the `terraform apply` command. You'll need to type **yes
 terraform apply
 ```
 
-Now head back over to the Azure Portal and click the **Refresh** link near the top of the page. You should see a new resource group called **tflab** appear on the list.
+Now head back over to the Azure Portal and click the **Refresh** link near the top of the page. You should see a new resource group called **tflab_rg** appear on the list.
 
+Note: It can take up to a minute for the resource group to show up in the portal. If you don't see it simply hit the refresh button again.
+
+<!--TODO - update this screenshot.-->
 ![Azure Resource Group in Portal](images/azure_resource_group.png)
 
 ---
 ### Create Config Drift
 Go ahead and delete this resource group from the Azure portal. You can do this by clicking on the resource group's name and then selecting the **Delete resource group** option from the top nav bar. You'll need to type in the resource group name to confirm the deletion. This simulates a manual change being made outside of Terraform's control.
 
+<!--TODO - update this screenshot.-->
 ![Delete Resource Group](images/delete_resource_group.png)
 
 ---
@@ -422,8 +428,100 @@ Note: Terraform is *idempotent* which means it will always try to create the sam
 
 Good job! You've just built (and rebuilt) your first Terraform resource!
 
+### Terraform Apply with No Changes
+If your infrastructure is already in the correct state, Terraform will not make any changes. Try another apply command and see what happens:
+
+```bash
+terraform apply
+```
+
+Terraform reports back that no changes are required:
+```
+No changes. Your infrastructure matches the configuration.
+```
+
+In the next section you'll add another resource to your code and learn how to connect dependent resources to one another.
+
 ## ⚙️ Lab 4: Add a Virtual Network
+A resource group is like a container for Azure resources. Let's add a virtual network to the resource group you created in the previous lab. Copy the following code into your **main.tf** file:
+
+```php
+resource "azurerm_virtual_network" "tflab_vn" {
+  name                = "tflab-virtual-network"
+  location            = REPLACE_ME
+  resource_group_name = REPLACE_ME
+  address_space       = ["10.0.0.0/16"]
+}
+```
+
+Your task is to figure out what to enter for the location and resource_group_name parameters. Have a look at the example docs for configuring the azure_virtual_network resource:
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network#example-usage
+
+Hint: The `location` and `resource_group_name` need to refer to the name and location of the resource group you added in the previous lab.
+
+Once you think you have the answer correct, run a `terraform apply` command and see if your virtual network builds. You may use the -auto-approve flag to bypass the yes/no approval question:
+
+```bash
+terraform apply -auto-approve
+```
+
+Great work. You now have a virtual network. In the next section we'll get more practice with interpolation by adding a subnet.
 
 ## ⚙️ Lab 5: Create a Subnet
+This lab exercise is very similar to the previous one. Copy the following code into your main.tf file and update the REPLACE_ME values:
+
+```php
+resource "azurerm_subnet" "tflab_sn" {
+  name                 = "tflab-subnet"
+  resource_group_name  = REPLACE_ME
+  virtual_network_name = REPLACE_ME
+  address_prefixes     = ["10.0.1.0/24"]
+}
+```
+
+Look at the example documentation for the azurerm_subnet resource here:
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet
+
+As before, run a `terraform apply -auto-approve` to check your work. Visit the Azure portal page for your resource group and verify that you now have a virtual network with a single subnet. 
+
+![Portal with Subnet](images/portal_with_subnet.png)
+
+## ⚙️ Lab 6: Tag Your Resources
+
+
+## ⚙️ Lab 7: Working with Variables
+
+
+## ⚙️ Lab 8: Data Sources
+<!-- 
+Use this for the lab:
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/platform_image
+-->
+
+## ⚙️ Lab 9: Local Values
+
+
+## ⚙️ Lab 10: Built-in Functions
+
+
+## ⚙️ Lab 10: Terraform Modules
+
+
+## ⚙️ Lab 11: Terraform State
+
+
+## ⚙️ Lab 12: Terraform Cloud & Remote State
+
+
+
+## ⚙️ Lab 13: Version Control System (VCS)
+
+
+
+## ⚙️ Lab 13: VCS Driven Collaboration
+
+
+
 
 ## ❓ Appendix A: The Answers
