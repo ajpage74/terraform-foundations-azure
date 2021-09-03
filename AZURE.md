@@ -1,7 +1,13 @@
 # Terraform Foundations on Azure
 
 ## 👋 Introduction
-Welcome to Terraform Foundations on Azure. Follow the instructions on this page to complete all your lab assignments. You may use the navigation menu on the left to jump to a particular lab exercise.
+Welcome to Terraform Foundations on Azure. This is a hands-on workshop that will teach you how to build Azure infrastructure using code. Along the way you'll learn important Terraform skills and best practices for infrastructure as code, version control, and automation.
+
+Follow the instructions on this page to complete all your lab assignments. You may use the navigation menu on the left to jump to a particular lab exercise. The lab exercises build upon one another so it's best to do them in order.
+
+Good luck and enjoy the workshop!
+
+Note: If you need to jump ahead to a particular point in the workshop you can copy the code in the Answers appendix to get caught up.
 
 ## 👩🏾‍🔬 Your Lab Environment
 Your lab environment is running on the <a href="https://instruqt.com" target="_blank">Instruqt</a> platform. Instruqt provides sandbox cloud environments where you can experiment and learn how to use HashiCorp tools like Terraform. You have four tabs in your learning environment:
@@ -19,6 +25,14 @@ Warning: Use an incognito window when you log onto the Azure portal. You can do 
 
 ---
 ## ⚙️ Lab 1: Terraform Basics
+Topics Covered:<br>
+Intro to Terraform, Installation, Creating a Workspace
+
+Documentation:<br>
+https://www.terraform.io/intro/index.html
+https://learn.hashicorp.com/tutorials/terraform/install-cli
+https://www.terraform.io/docs/language/state/workspaces.html
+
 ### What is Terraform?
 Terraform is an Infrastructure-as-Code (IaC) software tool created by HashiCorp and released in 2014. Terraform allows users to define and provision infrastructure using a declarative configuration language known as HashiCorp Configuration Language (HCL). Terraform manages infrastructure such as public and private cloud instances or VMs, network appliances, Software-as-a-Service (SaaS) and Platform-as-a-Service (PaaS) resources.
 
