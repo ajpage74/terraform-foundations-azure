@@ -1,7 +1,7 @@
 # Terraform Foundations on Azure
 
 ## 👋 Introduction
-Welcome to Terraform Foundations on Azure. This is a hands-on workshop that will teach you how to build Azure infrastructure using code. Along the way you'll learn important Terraform skills and best practices for infrastructure as code, version control, and automation. This workshop can be done as a self-study curriculum on your own, or as an instructor-led training. The lab environment will remain up and running for six hours. If you don't complete the entire labtoday you can come back and spin up a new sandbox environment for up to three months.
+Welcome to Terraform Foundations on Azure. This is a hands-on workshop that will teach you how to build Azure infrastructure using code. Along the way you'll learn important Terraform skills and best practices for infrastructure as code, version control, and automation. This workshop can be done as a self-study curriculum on your own, or as an instructor-led training. The lab environment will remain up and running for six hours. If you don't complete the entire lab today you can come back and spin up a new sandbox environment for up to three months.
 ![Terraform Logo](images/tflogo_128.png)
 
 Follow the instructions on this page to complete all your lab assignments. You may use the navigation menu on the left to jump to a particular lab exercise. The lab exercises build upon one another so it's best to do them in order.
