@@ -33,6 +33,9 @@ https://www.terraform.io/intro/index.html
 https://learn.hashicorp.com/tutorials/terraform/install-cli
 https://www.terraform.io/docs/language/state/workspaces.html
 
+**Summary**: In this lab you'll learn how terraform is installed and you'll create your first workspace.
+
+---
 ### What is Terraform?
 Terraform is an Infrastructure-as-Code (IaC) software tool created by HashiCorp and released in 2014. Terraform allows users to define and provision infrastructure using a declarative configuration language known as HashiCorp Configuration Language (HCL). Terraform manages infrastructure such as public and private cloud instances or VMs, network appliances, Software-as-a-Service (SaaS) and Platform-as-a-Service (PaaS) resources.
 
@@ -102,6 +105,9 @@ https://www.terraform.io/docs/language/providers/index.html
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
 https://www.terraform.io/docs/cli/commands/init.html
 
+**Summary**: In this lab you'll work with the AzureRM terraform provider and create your first workspace.
+
+---
 In order for Terraform to do anything useful, it needs a [provider](https://www.terraform.io/docs/language/providers/index.html). Terraform Providers are the plugins that connect the Terraform command line tool to various APIs and SaaS platforms. Take a moment to browse the public provider registry now:
 
 https://registry.terraform.io/browse/providers
@@ -157,7 +163,7 @@ https://www.terraform.io/docs/cli/commands/apply.html
 https://www.terraform.io/docs/language/index.html
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
 
-In this lab you'll start with the most basic Azure building block, [the Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal).
+**Summary:** In this lab you'll start with the most basic Azure building block, [the Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal).
 
 ---
 ### Log onto the Azure Portal
@@ -266,6 +272,9 @@ Azure virtual network, interpolation, dependencies
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network
 https://www.terraform.io/docs/language/syntax/configuration.html
 
+**Summary:** In this lab we'll build a virtual network and place it into the resource group created in the previous lab.
+
+---
 A resource group is like a container for Azure resources. Let's add a virtual network to the resource group you created in the previous lab. Copy the following code into your **main.tf** file:
 
 ```php
@@ -300,6 +309,9 @@ Azure subnet, auto approve
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet
 https://www.terraform.io/docs/cli/commands/apply.html
 
+**Summary:** Add a subnet to the virtual network created in the previous lab.
+
+---
 This lab exercise is very similar to the previous one. Copy the following code into your main.tf file and update the REPLACE_ME values:
 
 ```php
@@ -328,6 +340,9 @@ https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/tag-res
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
 https://www.terraform.io/docs/language/attr-as-blocks.html
 
+**Summary:** Learn how to create tags for your resources using Terraform.
+
+---
 Azure allows you to tag any resource with key/value pairs of text. You can use tags to keep track of resources and identify who built them, what they are for, what environment they belong in and more. Tags can be used on almost every Terraform resource in the Azure provider. Here's an example to show you how tags are formatted:
 
 ```php
@@ -357,6 +372,9 @@ Variables File, Configuring Variables, Precedence
 **Documentation:**
 https://www.terraform.io/docs/language/values/variables.html
 
+**Summary:** In this lab you'll use variables to make your terraform code more flexible.
+
+---
 So far all our settings have been hard-coded into our Terraform configs. You'll probably want to make your code more flexible for different users and environments, and that's where variables come in. Variables allow you to replace those hard-coded settings with placeholders that users can change to suit their needs.
 
 ---
