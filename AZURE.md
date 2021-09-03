@@ -25,10 +25,10 @@ Warning: Use an incognito window when you log onto the Azure portal. You can do 
 
 ---
 ## ⚙️ Lab 1: Terraform Basics
-Topics Covered:<br>
+**Topics Covered:**
 Intro to Terraform, Installation, Creating a Workspace
 
-Documentation:<br>
+**Documentation:**
 https://www.terraform.io/intro/index.html
 https://learn.hashicorp.com/tutorials/terraform/install-cli
 https://www.terraform.io/docs/language/state/workspaces.html
