@@ -94,6 +94,14 @@ Your provider configuration and Terraform code will be added to this file in the
 
 ---
 ## ⚙️ Lab 2: The Azure Provider
+**Topics Covered:**
+Terraform Providers, AzureRM Provider, Terraform Init
+
+**Documentation:**
+https://www.terraform.io/docs/language/providers/index.html
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
+https://www.terraform.io/docs/cli/commands/init.html
+
 In order for Terraform to do anything useful, it needs a [provider](https://www.terraform.io/docs/language/providers/index.html). Terraform Providers are the plugins that connect the Terraform command line tool to various APIs and SaaS platforms. Take a moment to browse the public provider registry now:
 
 https://registry.terraform.io/browse/providers
@@ -138,6 +146,17 @@ Warning: Sensitive credentials such as your Azure Service Principal should alway
 
 ---
 ## ⚙️ Lab 3: Build a Resource Group
+**Topics Covered:**
+Azure Portal, Terraform Files, Terraform Plan, Terraform Apply, Idempotence, Azure Resource Groups
+
+**Documentation:**
+https://azure.microsoft.com/en-us/features/azure-portal
+https://www.terraform.io/docs/language/files/index.html
+https://www.terraform.io/docs/cli/commands/plan.html
+https://www.terraform.io/docs/cli/commands/apply.html
+https://www.terraform.io/docs/language/index.html
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
+
 In this lab you'll start with the most basic Azure building block, [the Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal).
 
 ---
@@ -240,6 +259,13 @@ In the next section you'll add another resource to your code and learn how to co
 
 ---
 ## ⚙️ Lab 4: Add a Virtual Network
+**Topics Covered:**
+Azure virtual network, interpolation, dependencies
+
+**Documentation:**
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network
+https://www.terraform.io/docs/language/syntax/configuration.html
+
 A resource group is like a container for Azure resources. Let's add a virtual network to the resource group you created in the previous lab. Copy the following code into your **main.tf** file:
 
 ```php
@@ -267,6 +293,13 @@ Great work. You now have a virtual network. In the next section we'll get more p
 
 ---
 ## ⚙️ Lab 5: Create a Subnet
+**Topics Covered:**
+Azure subnet, auto approve
+
+**Documentation:**
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet
+https://www.terraform.io/docs/cli/commands/apply.html
+
 This lab exercise is very similar to the previous one. Copy the following code into your main.tf file and update the REPLACE_ME values:
 
 ```php
@@ -287,6 +320,14 @@ As before, run a `terraform apply -auto-approve` to check your work. Visit the A
 
 ---
 ## ⚙️ Lab 6: Tag Your Resources
+**Topics Covered:**
+Tagging, nested blocks
+
+**Documentation:**
+https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources?tabs=json
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
+https://www.terraform.io/docs/language/attr-as-blocks.html
+
 Azure allows you to tag any resource with key/value pairs of text. You can use tags to keep track of resources and identify who built them, what they are for, what environment they belong in and more. Tags can be used on almost every Terraform resource in the Azure provider. Here's an example to show you how tags are formatted:
 
 ```php
@@ -310,6 +351,12 @@ Once you have your resources tagged properly check your work in the Azure portal
 
 ---
 ## ⚙️ Lab 7: Working with Variables
+**Topics Covered:**
+Variables File, Configuring Variables, Precedence
+
+**Documentation:**
+https://www.terraform.io/docs/language/values/variables.html
+
 So far all our settings have been hard-coded into our Terraform configs. You'll probably want to make your code more flexible for different users and environments, and that's where variables come in. Variables allow you to replace those hard-coded settings with placeholders that users can change to suit their needs.
 
 ---
