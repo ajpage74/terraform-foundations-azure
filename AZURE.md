@@ -50,8 +50,8 @@ The Terraform language, or HCL, is a Domain Specific Language (DSL) that uses a 
 Terraform code is easy for both humans and machines to process. Take a look at the example below to see the simple declarative syntax:
 
 ```php
-resource "azurerm_resource_group" "example" {
-  name     = "example"
+resource "azurerm_resource_group" "tflab_rg" {
+  name     = "tflab-resource-group"
   location = "Central US"
 }
 ```
@@ -170,6 +170,27 @@ https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/
 ### Log onto the Azure Portal
 Log onto the Azure Portal now using the credentials on the **Azure Portal** tab. Remember to open the portal in an incognito or private window. Once you're logged in type "resource" into the search box at the top. Click on the **Resource groups** link under Services. The Azure portal will say "No resource groups to display" because you haven't created anything yet. Leave this window open and return to your Text Editor tab in Instruqt.
 
+### Terraform Resource Structure
+All terraform resources are structured exactly the same way. Here's a simple example with placeholders describing each part of the resource:
+
+```php
+resource "provider_resource" "identifier" {
+  attr1 = "value1"
+  attr2 = "value2"
+}
+```
+
+Look at the first line of the code block. The first keyword tells us that this is a **resource** object. The second part is split in two - the first part will always be the name of the provider the resource comes from, for example `azurerm`. The second half represents the specific resource, such as a `virtual machine`. Put them together and you get `azurerm_virtual_machine`. The **identifier** is a short name that you choose for this specific instance of the resource. The identifier can be any short string of text, as long as it is unique. You can use this identifier later in your code to refer to this resource. Then finally you have some attributes sandwiched between the curly braces. These are the buttons and knobs you can tweak to configure the resource. Now let's look at a real Terraform resource:
+
+```php
+resource "azurerm_resource_group" "tflab_rg" {
+  name     = "tflab-resource-group"
+  location = "Central US"
+}
+```
+
+Note: Make sure you understand the difference between the **identifier** which is tflab_rg, and the **name** parameter, which is what shows up in the Azure Portal.
+
 ---
 ### Update the main.tf File
 Your **main.tf** file currently has two blocks of code in it, the `terraform` block and the `provider` block. Next you'll add your first resource to the file.
@@ -178,7 +199,9 @@ Visit the `azurerm_resource_group` docs page and view the example usage.
 
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
 
-Add a new resource group called **tflab_rg** to your main.tf file. Don't forget to click on the save icon. You must use the name **tflab_rg** here, please don't choose another name.
+Add a new resource group named **tflab-resource-group** to your main.tf file and set the location parameter to **Central US**. You can set these with the **name** and location attributes inside your resource block. Use **tflab_rg** as the identifier.
+
+Don't forget to click on the save icon. 
 
 Note: If you want to try a different Azure location you can find a list of available options on the [Azure Regions page](https://azure.microsoft.com/en-us/global-infrastructure/geographies/#geographies).
 
@@ -430,7 +453,7 @@ The second way to configure Terraform variables is through the use of a speciall
 export TF_VAR_owner="Donald Duck"
 ```
 
-Now try running an apply. 
+Now try running `terraform apply`.
 
 ---
 ### Set Variables in a tfvars File
@@ -455,30 +478,74 @@ So far you've learned four different ways to configure variables. You may be cur
 5. User manual entry - if not specified, prompt the user for entry
 
 ---
-## ⚙️ Lab 8: Data Sources
+## ⚙️ Lab 8: Terraform Outputs
+**Topics Covered:**
+Terraform Outputs
+
+**Documentation:**
+https://www.terraform.io/docs/language/values/outputs.html
+
+**Summary:** In this lab you'll learn how to output useful information at the end of a Terraform run.
 
 ---
-## ⚙️ Lab 9: Local Values
+Now that you have built some infrastructure you might want to output some useful information to the user once the Terraform run is complete. This is accomplished by using [outputs](https://www.terraform.io/docs/language/values/outputs.html).
+
+Outputs usually live in their own `.tf` file. Go ahead and create a file called **outputs.tf** now:
+
+```bash
+touch outputs.tf
+```
+
+Here's an example output to get you started. Copy this code into your **outputs.tf** file and save it.
+
+
+```php
+output "subnet_name" {
+  value = azurerm_subnet.tflab_sn.name
+}
+```
+
+Run an apply and observe the output.
+
+You can output just about any attribute or even plain text. Here's an example that uses interpolation to combine text with a dynamic value. Update your outputs file to look like this. Note how the variable is enclosed in `${}` so terraform knows that it is an attribute:
+
+```php
+output "subnet_name" {
+  value = "Subnet Name: ${azurerm_subnet.tflab_sn.name}"
+}
+```
+
+Now try it on your own. Create another output that shows the subnet ID.
+
+Hint: You can use the [attributes reference](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet#attributes-reference) from the docs site to see what valid attributes you can use in an output.
+
+Once you have both the subnet name and subnet ID in your outputs after each run, move on to the next lab.
 
 ---
-## ⚙️ Lab 10: Built-in Functions
+## ⚙️ Lab 9: Data Sources
 
 ---
-## ⚙️ Lab 10: Terraform Modules
+## ⚙️ Lab 10: Local Values
 
 ---
-## ⚙️ Lab 11: Terraform State
+## ⚙️ Lab 11: Built-in Functions
 
 ---
-## ⚙️ Lab 12: Terraform Cloud & Remote State
+## ⚙️ Lab 12: Terraform Modules
+
+---
+## ⚙️ Lab 13: Terraform State
+
+---
+## ⚙️ Lab 14: Terraform Cloud & Remote State
 
 
 ---
-## ⚙️ Lab 13: Version Control System (VCS)
+## ⚙️ Lab 15: Version Control System (VCS)
 
 
 ---
-## ⚙️ Lab 14: VCS Driven Collaboration
+## ⚙️ Lab 16: VCS Driven Collaboration
 
 
 ## ⚙️ Appendix A: A Taste of Git
