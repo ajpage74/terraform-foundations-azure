@@ -1,8 +1,8 @@
 # Terraform Foundations on Azure
 
 ## 👋 Introduction
-![Terraform Logo](images/tflogo_256.png)
 Welcome to Terraform Foundations on Azure. This is a hands-on workshop that will teach you how to build Azure infrastructure using code. Along the way you'll learn important Terraform skills and best practices for infrastructure as code, version control, and automation.
+![Terraform Logo](images/tflogo_128.png)
 
 Follow the instructions on this page to complete all your lab assignments. You may use the navigation menu on the left to jump to a particular lab exercise. The lab exercises build upon one another so it's best to do them in order.
 
