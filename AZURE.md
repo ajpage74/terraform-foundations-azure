@@ -789,6 +789,7 @@ https://www.terraform.io/docs/language/modules/develop/index.html
 https://registry.terraform.io/modules/Azure/compute/azurerm/latest
 
 **Summary:** In this lab you'll use a module to deploy a second server into your virtual network.
+
 ---
 Terraform encourages code reusability through the use of [modules](https://www.terraform.io/docs/language/modules/develop/index.html). A module is simply a directory full of re-usable Terraform code. The module can be stored on your local machine, a Git repository, or a Terraform Cloud module registry. The inputs to the module are the variables, and the outputs are the Terraform outputs.
 
