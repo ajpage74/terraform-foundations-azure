@@ -805,7 +805,7 @@ Copy the `linuxservers` module block and `linux_vm_public_name` from the example
 
 Run a `terraform apply` and test your code. You should see the module build a second Linux server in your virtual network.
 
-Hint: You can use your random pet name for the unique name of `public_ip_dns`. This is one of the more challenging labs. Don't be afraid to take a [peek at the answer](https://github.com/hashicorp/terraform-azure-labs/tree/main/lab_answers/16) if you are stuck.
+Hint: You can use your random pet name for the unique name of `public_ip_dns`. This is one of the more challenging labs. Don't be afraid to take a [peek at the answer](https://github.com/hashicorp/terraform-azure-labs/blob/main/lab_answers/16/main.tf#L185-L193) if you are stuck.
 
 ---
 ## ⚙️ Lab 17: State
