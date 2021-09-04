@@ -686,7 +686,7 @@ https://www.terraform.io/docs/language/values/locals.html#using-local-values
 
 Hint: All of your resources support tagging except for `azurerm_subnet` and `azurerm_network_interface_security_group_association`.
 
-## ⚙️ Lab 13: Teraform Format (fmt)
+## ⚙️ Lab 13: Terraform Format (fmt)
 **Topics Covered:**
 terraform fmt
 
@@ -705,7 +705,29 @@ terraform fmt
 Open the **main.tf** file and behold the neatness. If you have OCD tendencies, you will love this command.
 
 ---
-## ⚙️ Lab 14: Data Sources
+## ⚙️ Lab 14: Built-in Functions
+**Topics Covered:**
+Built-in functions
+
+**Documentation:**
+https://www.terraform.io/docs/language/functions/index.html
+
+**Summary:** In this lab you'll learn about Terraform's built in programming functions for working with different types of data.
+
+---
+Terraform is known as a declarative language, but it also comes packed with [useful functions](https://www.terraform.io/docs/language/functions/index.html) that you can use to do math, date and time calculations, numeric and string functions and much more.
+
+Let's add a `timestamp()` tag to all our resources. This lab will build on what you learned about local common tags in the Local Values lab.
+
+Take a look at the documentation for the function:
+https://www.terraform.io/docs/language/functions/timestamp.html
+
+Now add another tag called `created` to your `common_tags` array with the timestamp value. Run a `terraform apply` to add your new timestamp tag to all the resources.
+
+Look at the Azure portal and verify that your resources all received the new tag.
+
+---
+## ⚙️ Lab 15: Data Sources
 **Topics Covered:**
 Data sources, Azure platform image, Dad Jokes
 
@@ -720,7 +742,7 @@ https://icanhazdadjoke.com/api
 ---
 Many Terraform providers come with [Data Sources](https://www.terraform.io/docs/language/data-sources/index.html), which allow you to query the provider API for useful information that can be utilized during a Terraform run. Terraform also comes with an **http** provider data source which can be used to query any API that produces JSON or text output.
 
-Copy the following `data` and `locals` blocks right to the very end of the **main.tf** file. The data block fetches data from the Dad Joke API, and the locals block 
+Copy the following `data` and `locals` blocks right after the locals block you created in the previous lab. The data block fetches data from the Dad Joke API, and the locals block stores the joke body as a text string. 
 
 ```php
 data "http" "tflab_joke" {
@@ -737,9 +759,25 @@ locals {
 
 The `json_data` local value is simply a way of storing the output of the `jsondecode` command.
 
+Note: You can have multiple `locals` blocks in your Terraform code. It can be useful to group related local values together in the same block.
 
----
-## ⚙️ Lab 15: Built-in Functions
+You can use your external data anywhere in your terraform code. For now we'll just use it in an output. Add an output to your **outputs.tf** file called `dad_joke` with the value set as `local.json_data.joke`.
+
+Once you've got your output configured you'll need to re-init your workspace because we've added a new provider:
+
+```bash
+terraform init
+```
+
+Now you can run `terraform apply` to test the external data source:
+
+```bash
+terraform apply -auto-approve
+```
+
+Congratulations, now you will get a corny dad joke along with every Terraform run. `Hi Hungry, I'm Dad!`
+
+Hint: You can look at [Terraform outputs documentation](https://www.terraform.io/docs/language/values/outputs.html) if you forgot how to structure the output code.
 
 ---
 ## ⚙️ Lab 16: Terraform Modules
