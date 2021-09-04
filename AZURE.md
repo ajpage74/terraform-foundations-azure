@@ -569,43 +569,113 @@ This is one of our favorite Terraform resources. It generates [random pet names]
 
 This Terraform run will take a bit longer than the previous labs because we're building more infrastructure. You can watch your infrastructure populate the resource group in the Azure portal. When the terraform run is complete proceed to the next lab.
 
+Note: The terraform run will output some URLs for your web server but they aren't working yet. We'll fix this in the next lab.
+
 ---
 ## ⚙️ Lab 11: Terraform Provisioners
 **Topics Covered:**
-Terraform provisioners, file provisioner, remote_exec provisioners
+Terraform provisioners, file provisioner, remote_exec provisioners, terraform taint
 
 **Documentation:**
 https://www.terraform.io/docs/language/resources/provisioners/
 https://www.terraform.io/docs/language/resources/provisioners/file.html
 https://www.terraform.io/docs/language/resources/provisioners/remote-exec.html
+https://www.terraform.io/docs/cli/commands/taint.html
 
 **Summary:** In this lab you'll use a provisioner to configure your new web server.
 
 ---
-## ⚙️ Lab 10: Data Sources
+### The File Provisioner
+Now that you have a virtual machine let's install a web application on it. Terraform does not configure your OS or application settings directly, instead it uses a [provisioner](https://www.terraform.io/docs/language/resources/provisioners/syntax.html). Provisioners are designed to run once the first time you do a `terraform apply`. They will not run on subsequent applies. This is so you don't clobber a running machine by overwriting settings with a configuration script.
+
+First let's add a **file** provisioner to put our setup script onto the server. Copy the following code into the `azurerm_linux_virtual_machine` resource:
+
+```php
+  provisioner "file" {
+    source      = "files/setup_webserver.sh"
+    destination = "/home/${self.admin_username}/setup_webserver.sh"
+
+    connection {
+      type     = "ssh"
+      user     = self.admin_username
+      password = self.admin_password
+      host     = azurerm_public_ip.tflab_pip.fqdn
+    }
+  }
+```
 
 ---
-## ⚙️ Lab 11: Local Values
+### The Remote Exec Provisioner
+The remote exec provisioner allows you to run arbitrary commands on the target host. Next we'll add a **remote_exec** provisioner to our VM to run the script that was uploaded in the previous step.
+
+Add a **remote_exec** provisioner right below the file provisioner in your main.tf file, inside the `azurerm_linux_virtual_machine` resource:
+
+```php
+  provisioner "remote-exec" {
+    inline = [
+      "cd /home/${self.admin_username}",
+      "chmod +x /home/${self.admin_username}/setup_webserver.sh",
+      "sudo ./setup_webserver.sh"
+    ]
+
+    connection {
+      type     = "ssh"
+      user     = self.admin_username
+      password = self.admin_password
+      host     = azurerm_public_ip.tflab_pip.fqdn
+    }
+  }
+```
+
+Try running a `terraform apply` once your provisioners are in place. Nothing changes. Why?
+
+Hint: Remember what we said about provisioners only running on the first `terraform apply`...
 
 ---
-## ⚙️ Lab 12: Built-in Functions
+### Terraform Taint
+Provisioners are only meant to execute on the very first Terraform apply. How can we rebuild our webserver without tearing down all the rest of the infrastructure? The answer is the [terraform taint](https://www.terraform.io/docs/cli/commands/taint.html) command. With this useful command you can mark specific resources for rebuild on the next run. Try it now:
+
+```bash
+terraform taint azurerm_linux_virtual_machine.tflab_linux_vm
+```
+
+Terraform will report back that the resource has been tainted:
+
+```
+Resource instance azurerm_linux_virtual_machine.tflab_linux_vm has been marked as tainted.
+```
+
+Now run another `terraform apply -auto-approve` to rebuild your VM and run the **file** and **remote_exec** provisioners. It may take a few minutes for your old machine to be destroyed and replaced with a brand new one, feel free to take a break here while Terraform finishes running.
+
+When the run completes you should be able to access the URL shown in the Terraform output. Click the URL to see your HashiCat Meow World application:
+
+![Meow World Application](images/meow_world.png)
 
 ---
-## ⚙️ Lab 13: Terraform Modules
+## ⚙️ Lab 12: Data Sources
 
 ---
-## ⚙️ Lab 14: Terraform State
+## ⚙️ Lab 13: Local Values
 
 ---
-## ⚙️ Lab 15: Terraform Cloud & Remote State
+## ⚙️ Lab 14: Built-in Functions
+
+---
+## ⚙️ Lab 15: Terraform Modules
+
+---
+## ⚙️ Lab 16: Terraform State
+
+---
+## ⚙️ Lab 17: Terraform Cloud & Remote State
 
 
 ---
-## ⚙️ Lab 16: Version Control System (VCS)
+## ⚙️ Lab 18: Version Control System (VCS)
 
 
 ---
-## ⚙️ Lab 17: VCS Driven Collaboration
+## ⚙️ Lab 19: VCS Driven Collaboration
 
 
 ## ⚙️ Appendix A: A Taste of Git
