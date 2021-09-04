@@ -18,7 +18,7 @@ challenges:
   id: p7digpdhpoyg
   type: challenge
   title: "☁️ Azure Terraform Lab \U0001F4BB"
-  teaser: This challenge sets up your training environment which is valid for 8 hours. Use the Instructions tab to work through all your lab exercises. Click the View button to return to the lab.
+  teaser: This challenge sets up your training environment which is valid for 6 hours. Use the Instructions tab to work through all your lab exercises. Click the View button to return to the lab.
   notes:
   - type: text
     contents: "Buckle up...you're about to enter the Terraverse! \U0001F4BB \U0001F680 \U0001F47D\n"
@@ -50,5 +50,5 @@ challenges:
     path: /
     port: 80
   difficulty: basic
-  timelimit: 28800
-checksum: "10134383958828775824"
+  timelimit: 21600
+checksum: "16295098276952390749"
