@@ -539,7 +539,7 @@ terraform destroy
 Warning: This powerful command can take down your entire production environment if it is not used carefully. Always double and triple check that the things you are destroying are not in use!
 
 ---
-## ⚙️ Lab 10: Create a Linux Virtual Machine
+## ⚙️ Lab 10: Create a Linux VM
 **Topics Covered:**
 Azure Linux virtual machine, random provider, random pets
 
@@ -582,11 +582,11 @@ https://www.terraform.io/docs/language/resources/provisioners/file.html
 https://www.terraform.io/docs/language/resources/provisioners/remote-exec.html
 https://www.terraform.io/docs/cli/commands/taint.html
 
-**Summary:** In this lab you'll use a provisioner to configure your new web server.
+**Summary:** In this lab you'll use Terraform provisioners to configure your new web server.
 
 ---
 ### The File Provisioner
-Now that you have a virtual machine let's install a web application on it. Terraform does not configure your OS or application settings directly, instead it uses a [provisioner](https://www.terraform.io/docs/language/resources/provisioners/syntax.html). Provisioners are designed to run once the first time you do a `terraform apply`. They will not run on subsequent applies. This is so you don't clobber a running machine by overwriting settings with a configuration script.
+Now that you have a virtual machine let's install a web application on it. Terraform does not configure your OS or application settings directly, instead it uses a [provisioner](https://www.terraform.io/docs/language/resources/provisioners/syntax.html). Provisioners are designed to run once the first time you do a `terraform apply`. They will not run on subsequent applies. This is so you don't clobber a running machine by overwriting important settings with a configuration script.
 
 First let's add a **file** provisioner to put our setup script onto the server. Copy the following code into the `azurerm_linux_virtual_machine` resource:
 
@@ -606,7 +606,9 @@ First let's add a **file** provisioner to put our setup script onto the server. 
 
 ---
 ### The Remote Exec Provisioner
-The remote exec provisioner allows you to run arbitrary commands on the target host. Next we'll add a **remote_exec** provisioner to our VM to run the script that was uploaded in the previous step.
+The remote exec provisioner allows you to run arbitrary commands on the target host. Next we'll add a **remote_exec** provisioner to our VM to run the script that was uploaded in the previous step. Look at the **inline** commands that get run in the block of code below. These commands run on the target host and not your local machine.
+
+The **connection** block describes how Terraform should connect to the remote machine. In this case we're using SSH with a username in password. This is not recommended for production where you'd use an SSH key instead.
 
 Add a **remote_exec** provisioner right below the file provisioner in your main.tf file, inside the `azurerm_linux_virtual_machine` resource:
 
@@ -651,31 +653,109 @@ When the run completes you should be able to access the URL shown in the Terrafo
 
 ![Meow World Application](images/meow_world.png)
 
----
-## ⚙️ Lab 12: Data Sources
+Note: Provisioners are meant to be used as a last resort when other configuration methods are not available. You can use [HashiCorp Packer](https://www.packer.io/) to build virtual machine images, and then use a [custom data](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine#custom_data) script to provision your application at launch time. This is a much cleaner solution that doesn't require SSH to be open to run! Read more about custom data scripts on the Windows Azure docs: https://docs.microsoft.com/en-us/azure/virtual-machines/custom-data
 
 ---
-## ⚙️ Lab 13: Local Values
+## ⚙️ Lab 12: Local Values
+**Topics Covered:**
+Local Values, Common Tags
+
+**Documentation:**
+https://www.terraform.io/docs/language/values/locals.html
+
+**Summary:** In this lab you'll use local values to store common tags for all your Azure resources.
 
 ---
-## ⚙️ Lab 14: Built-in Functions
+Congratulations on building your new Meow World application server. There's one problem though, none of your resources are tagged properly. Let's use a Terraform [local value](https://www.terraform.io/docs/language/values/locals.html) to define some common tags that can be applied to all your resources.
+
+Copy the following block of code into your **main.tf** file, right underneath the provider block. You can replace the "Your Name" value with your own name if you like. This code defines an array of tags that you can refer to with the `common_tags` local.
+
+```php
+locals {
+  # Common tags to be assigned to all resources
+  common_tags = {
+    environment  = "Development"
+    owner        = "Your Name"
+  }
+}
+```
+
+Next, add tags to every resource in your **main.tf** file that supports tagging. Read the documentation on using local values to find the correct syntax for adding your tags:
+
+https://www.terraform.io/docs/language/values/locals.html#using-local-values
+
+Hint: All of your resources support tagging except for `azurerm_subnet` and `azurerm_network_interface_security_group_association`.
+
+## ⚙️ Lab 13: Teraform Format (fmt)
+**Topics Covered:**
+terraform fmt
+
+**Documentation:**
+https://www.terraform.io/docs/cli/commands/fmt.html
+
+**Summary:** The `terraform fmt` command is a handy way to tidy up your code.
 
 ---
-## ⚙️ Lab 15: Terraform Modules
+Your code may look a little messy after all that copying and pasting. Here's a handy shortcut you can run anytime you want to clean up and format your code. Run a `terraform fmt` command now to fix all the indentation and spacing in your code:
+
+```bash
+terraform fmt
+```
+
+Open the **main.tf** file and behold the neatness. If you have OCD tendencies, you will love this command.
 
 ---
-## ⚙️ Lab 16: Terraform State
+## ⚙️ Lab 14: Data Sources
+**Topics Covered:**
+Data sources, Azure platform image, Dad Jokes
+
+**Documentation:**
+https://www.terraform.io/docs/language/data-sources/index.html
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/platform_image
+https://www.terraform.io/docs/language/values/locals.html
+https://icanhazdadjoke.com/api
+
+**Summary:** In this lab you'll use a data source to pull in external data for use in your Terraform run, and then use a local value to store and convert the data into plain text.
 
 ---
-## ⚙️ Lab 17: Terraform Cloud & Remote State
+Many Terraform providers come with [Data Sources](https://www.terraform.io/docs/language/data-sources/index.html), which allow you to query the provider API for useful information that can be utilized during a Terraform run. Terraform also comes with an **http** provider data source which can be used to query any API that produces JSON or text output.
+
+Copy the following `data` and `locals` blocks right to the very end of the **main.tf** file. The data block fetches data from the Dad Joke API, and the locals block 
+
+```php
+data "http" "tflab_joke" {
+  url = "https://icanhazdadjoke.com"
+  request_headers = {
+    "Accept" = "application/json"
+  }
+}
+
+locals {
+  json_data = jsondecode(data.http.tflab_joke.body)
+}
+```
+
+The `json_data` local value is simply a way of storing the output of the `jsondecode` command.
 
 
 ---
-## ⚙️ Lab 18: Version Control System (VCS)
+## ⚙️ Lab 15: Built-in Functions
+
+---
+## ⚙️ Lab 16: Terraform Modules
+
+---
+## ⚙️ Lab 17: Terraform State
+
+---
+## ⚙️ Lab 18: Terraform Cloud & Remote State
+
+---
+## ⚙️ Lab 19: Version Control System (VCS)
 
 
 ---
-## ⚙️ Lab 19: VCS Driven Collaboration
+## ⚙️ Lab 20: VCS Driven Collaboration
 
 
 ## ⚙️ Appendix A: A Taste of Git
