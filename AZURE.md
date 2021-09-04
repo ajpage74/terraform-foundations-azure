@@ -850,9 +850,10 @@ You'll need a GitHub.com account to do the lab exercises. Visit github.com in a 
 
 https://github.com/hashicorp/terraform-azure-labs
 
-Select the Shell tab and run the following command to download (clone) a copy of the training repo to your workstation.
+Select the Shell tab and run the following commands to download (clone) a copy of the training repo to your workstation.
 
 ```bash
+cd /root
 git clone https://github.com/YOURGITUSERNAME/terraform-azure-labs
 ```
 
