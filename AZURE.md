@@ -767,3 +767,15 @@ Here's a quick overview of the most commonly used Git commands:
 * `git checkout` - Use to switch branches or revert changes to a file.
 
 ## ❓ Appendix B: The Answers
+Stuck on a challenge? Don't worry, help is here.
+
+Here's a link to all the correct answers. Visit this git repo and you'll find completed versions of lab code in the **lab_answers** directory:
+
+https://github.com/hashicorp/terraform-azure-labs
+
+In a hurry? You can automatically reset your environment to the end of a lab exercise with the `catchup.sh` script. Give the script a lab number and it will automatically clean up your sandbox and finish the lab for you. This is a handy way to get caught up or skip to a particular section.
+
+Example script usage below. This will jump you to the end of Lab 7 and the beginning of Lab 8.
+```bash
+catchup.sh 7
+```
