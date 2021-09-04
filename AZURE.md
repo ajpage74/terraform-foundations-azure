@@ -831,6 +831,7 @@ Warning: Do not delete your state file and do not commit it to a public git repo
 ---
 ## ⚙️ Lab 18: Terraform Cloud & Remote State
 
+
 ---
 ## ⚙️ Lab 19: Version Control System (VCS)
 
@@ -840,7 +841,7 @@ Warning: Do not delete your state file and do not commit it to a public git repo
 
 
 ## ⚙️ Appendix A: A Taste of Git
-<a href="https://en.wikipedia.org/wiki/Git" target="_blank">Git</a> is the worlds most popular version control system (VCS). We'll be using Git to download all the lab exercises and example code for this workshop. Before we begin working with Terraform let's review some basic Git commands.
+<a href="https://en.wikipedia.org/wiki/Git" target="_blank">Git</a> is the worlds most popular version control system (VCS). We'll be using Git to download the answer key for this workshop. We'll use this Git repo to experiment and learn.
 
 ---
 ### **Exercise 1:** Fork and Clone
@@ -863,8 +864,6 @@ ls -l
 ```
 
 Note that your prompt changes when you cd into a Git repository. The git-enabled prompt adds additional information about your git repository including the branch name and any changes that haven't been committed yet.
-
-Note: If you know your way around the Git command line you may skip the rest of this section and proceed on to the next lab, Terraform Basics.
 
 ---
 ### **Exercise 2:** Git Basics
@@ -1066,7 +1065,7 @@ Here's a link to all the correct answers. Visit this git repo and you'll find co
 
 https://github.com/hashicorp/terraform-azure-labs
 
-In a hurry? You can automatically reset your environment to the end of a lab exercise with the `catchup.sh` script. Give the script a lab number and it will automatically clean up your sandbox and finish the lab for you. This is a handy way to get caught up or skip to a particular section.
+In a hurry? You can automatically reset your environment to the end of a lab exercise with the `catchup.sh` script. Give the script a lab number and it will automatically clean up your sandbox and finish the lab for you. This is a handy way to get caught up or skip to a particular section. The catchup script works as far as the end of **Lab 17 - Terraform State** after which your Terraform Cloud and VCS settings must be configured manually.
 
 Example script usage below. This will jump you to the end of Lab 7 and the beginning of Lab 8.
 ```bash
