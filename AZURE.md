@@ -519,7 +519,7 @@ Hint: You can use the [attributes reference](https://registry.terraform.io/provi
 Once you have both the subnet name and subnet ID in your outputs after each run, move on to the next lab.
 
 ---
-## ⚙️ Lab 9: Terraform Destroy
+## ⚙️ Lab 9: Destroy
 **Topics Covered:**
 Terraform Destroy
 
@@ -685,7 +685,7 @@ https://www.terraform.io/docs/language/values/locals.html#using-local-values
 
 Hint: All of your resources support tagging except for `random_pet`, `azurerm_subnet` and `azurerm_network_interface_security_group_association`.
 
-## ⚙️ Lab 13: Terraform Format (fmt)
+## ⚙️ Lab 13: Format (fmt)
 **Topics Covered:**
 terraform fmt
 
