@@ -79,11 +79,9 @@ This useful command shows all the subcommands supported by the `terraform` comma
 terraform -help
 ```
 
-Let's create a new Terraform workspace to do our lab work in. Change back into your `/root/workspace` directory and create a new directory called `sandbox`. Use the cd command to move into the sandbox directory:
+Terraform files should always be stored in a workspace directory. We've created a directory for you called **sandbox**. All your terraform commands should be run from within the sandbox directory. Use the cd command to move into the sandbox directory if you're not there already:
 
 ```bash
-cd /root/workspace
-mkdir sandbox
 cd sandbox
 ```
 
