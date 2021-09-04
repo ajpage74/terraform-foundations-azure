@@ -13,10 +13,12 @@ done
 echo "source /etc/profile.d/instruqt-env.sh" >> /root/.bashrc
 source /root/.bashrc
 
-# Clone the answers repo and configure catchup.sh script
+# Clone the answers repo and configure catchup.sh script and setup.sh scripts
 git clone https://github.com/hashicorp/terraform-azure-labs /tmp/terraform-azure-labs
-cp /tmp/terraform-azure-labs/lab_answers/scripts/catchup.sh /usr/local/bin/catchup.sh
+cp /tmp/terraform-azure-labs/scripts/catchup.sh /usr/local/bin/catchup.sh
 chmod +x /usr/local/bin/catchup.sh
+cp /tmp/terraform-azure-labs/scripts/setup.sh /usr/local/bin/setup.sh
+chmod +x /usr/local/bin/setup.sh
 
 # Set up the web server for instructions
 apt-get update --fix-missing

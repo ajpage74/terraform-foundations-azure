@@ -520,30 +520,92 @@ Hint: You can use the [attributes reference](https://registry.terraform.io/provi
 Once you have both the subnet name and subnet ID in your outputs after each run, move on to the next lab.
 
 ---
-## ⚙️ Lab 9: Data Sources
+## ⚙️ Lab 9: Terraform Destroy
+**Topics Covered:**
+Terraform Destroy
+
+**Documentation:**
+https://www.terraform.io/docs/cli/commands/destroy.html
+
+**Summary:** In this lab you'll clean up your sandbox environment and prepare for the next lab.
 
 ---
-## ⚙️ Lab 10: Local Values
+The `terraform destroy` command will remove any infrastructure defined in your workspace. Before we move on to the next lab let's clean up everything we've built so far. Run a destroy command in your workspace:
+
+```bash
+terraform destroy
+```
+
+Warning: This powerful command can take down your entire production environment if it is not used carefully. Always double and triple check that the things you are destroying are not in use!
 
 ---
-## ⚙️ Lab 11: Built-in Functions
+## ⚙️ Lab 10: Create a Linux Virtual Machine
+**Topics Covered:**
+Azure Linux virtual machine, random provider, random pets
+
+**Documentation:**
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine
+https://registry.terraform.io/providers/hashicorp/random
+https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/pet
+
+**Summary:** In this lab you'll build a linux virtual machine with a unique pet name.
 
 ---
-## ⚙️ Lab 12: Terraform Modules
+Run the following command to prepare your sandbox workspace for the lab:
+
+```bash
+setup.sh 10
+```
+
+This script will populate your sandbox directory with terraform code that builds an Ubuntu 18.04 Linux server with all its dependencies. We'll be using this code for the rest of the lab exercises. Take a moment and look through the **main.tf** file to see what's been added. You may notice a special resource near the top of the file:
+
+```php
+resource "random_pet" "tflab_pet" {
+  length = 2
+}
+```
+
+This is one of our favorite Terraform resources. It generates [random pet names](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/pet) that you can use when you need unique names for things. This is useful when you need a DNS name, storage id, or any kind of unique identifier. Try running `terraform apply` now and see what kind of pet you get!
+
+This Terraform run will take a bit longer than the previous labs because we're building more infrastructure. You can watch your infrastructure populate the resource group in the Azure portal. When the terraform run is complete proceed to the next lab.
 
 ---
-## ⚙️ Lab 13: Terraform State
+## ⚙️ Lab 11: Terraform Provisioners
+**Topics Covered:**
+Terraform provisioners, file provisioner, remote_exec provisioners
+
+**Documentation:**
+https://www.terraform.io/docs/language/resources/provisioners/
+https://www.terraform.io/docs/language/resources/provisioners/file.html
+https://www.terraform.io/docs/language/resources/provisioners/remote-exec.html
+
+**Summary:** In this lab you'll use a provisioner to configure your new web server.
 
 ---
-## ⚙️ Lab 14: Terraform Cloud & Remote State
+## ⚙️ Lab 10: Data Sources
+
+---
+## ⚙️ Lab 11: Local Values
+
+---
+## ⚙️ Lab 12: Built-in Functions
+
+---
+## ⚙️ Lab 13: Terraform Modules
+
+---
+## ⚙️ Lab 14: Terraform State
+
+---
+## ⚙️ Lab 15: Terraform Cloud & Remote State
 
 
 ---
-## ⚙️ Lab 15: Version Control System (VCS)
+## ⚙️ Lab 16: Version Control System (VCS)
 
 
 ---
-## ⚙️ Lab 16: VCS Driven Collaboration
+## ⚙️ Lab 17: VCS Driven Collaboration
 
 
 ## ⚙️ Appendix A: A Taste of Git
