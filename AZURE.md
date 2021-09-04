@@ -387,7 +387,7 @@ Hint: The tags block must be placed *inside* of the resource block.
 Once you have your resources tagged properly check your work in the Azure portal. From this point forward we won't always remind you to run `terraform apply` since you already know the process.
 
 ---
-## ⚙️ Lab 7: Working with Variables
+## ⚙️ Lab 7: Variables
 **Topics Covered:**
 Variables File, Configuring Variables, Precedence
 
@@ -476,7 +476,7 @@ So far you've learned four different ways to configure variables. You may be cur
 5. User manual entry - if not specified, prompt the user for entry
 
 ---
-## ⚙️ Lab 8: Terraform Outputs
+## ⚙️ Lab 8: Outputs
 **Topics Covered:**
 Terraform Outputs
 
@@ -572,7 +572,7 @@ This Terraform run will take a bit longer than the previous labs because we're b
 Note: The terraform run will output some URLs for your web server but they aren't working yet. We'll fix this in the next lab.
 
 ---
-## ⚙️ Lab 11: Terraform Provisioners
+## ⚙️ Lab 11: Provisioners
 **Topics Covered:**
 Terraform provisioners, file provisioner, remote_exec provisioners, terraform taint
 
@@ -684,7 +684,7 @@ Next, add tags to every resource in your **main.tf** file that supports tagging.
 
 https://www.terraform.io/docs/language/values/locals.html#using-local-values
 
-Hint: All of your resources support tagging except for `azurerm_subnet` and `azurerm_network_interface_security_group_association`.
+Hint: All of your resources support tagging except for `random_pet`, `azurerm_subnet` and `azurerm_network_interface_security_group_association`.
 
 ## ⚙️ Lab 13: Terraform Format (fmt)
 **Topics Covered:**
@@ -780,10 +780,53 @@ Congratulations, now you will get a corny dad joke along with every Terraform ru
 Hint: You can look at [Terraform outputs documentation](https://www.terraform.io/docs/language/values/outputs.html) if you forgot how to structure the output code.
 
 ---
-## ⚙️ Lab 16: Terraform Modules
+## ⚙️ Lab 16: Modules
+**Topics Covered:**
+Terraform modules, Public module registry
+
+**Documentation:**
+https://registry.terraform.io/
+https://www.terraform.io/docs/language/modules/develop/index.html
+https://registry.terraform.io/modules/Azure/compute/azurerm/latest
+
+**Summary:** In this lab you'll use a module to deploy a second server into your virtual network.
+---
+Terraform encourages code reusability through the use of [modules](https://www.terraform.io/docs/language/modules/develop/index.html). A module is simply a directory full of re-usable Terraform code. The module can be stored on your local machine, a Git repository, or a Terraform Cloud module registry. The inputs to the module are the variables, and the outputs are the Terraform outputs.
+
+You can think of the module like a black box. A user provides inputs, the module runs and builds some infrastructure, and then produces outputs. The user isn't allowed to tinker with the internal workings of the module. The benefits are more compact code, better security, standardized configurations, and code re-usability.
+
+The central repository for public Terraform modules is located at [registry.terraform.io](https://registry.terraform.io/browse/modules). You can search through all the available modules by keyword to see if someone's already written a module that you need.
+
+Take a look at the documentation for the Azure compute module, which simplifies the deployment of multiple Windows or Linux VMs into a chosen subnet:
+
+https://registry.terraform.io/modules/Azure/compute/azurerm/latest
+
+Copy the `linuxservers` module block and `linux_vm_public_name` from the example code in the docs into your own **main.tf** and **outputs.tf** files. Adjust the settings so that the `resource_group_name`, `vnet_subnet_id`, `public_ip_dns` and `depends_on` settings are correct.
+
+Run a `terraform apply` and test your code. You should see the module build a second Linux server in your virtual network.
+
+Hint: You can use your random pet name for the unique name of `public_ip_dns`. This is one of the more challenging labs. Don't be afraid to take a [peek at the answer](https://github.com/hashicorp/terraform-azure-labs/tree/main/lab_answers/16) if you are stuck.
 
 ---
-## ⚙️ Lab 17: Terraform State
+## ⚙️ Lab 17: State
+**Topics Covered:**
+Terraform state
+
+**Documentation:**
+https://www.terraform.io/docs/language/state/index.html
+
+**Summary:** In this lab you'll explore the Terraform state file and learn how Terraform manages state.
+
+---
+Terraform is a *stateful* application. Every time you run an apply Terraform takes a snapshot of the infrastructure that was built and stores what it knows about the state in a file named `terraform.tfstate`. You may have noticed this file sitting there in your workspace. Go ahead and open it up in your Text Editor now.
+
+You can enable color syntax highlighting in the Text Editor to make the file easier to read. In the far lower right corner of your editor there is a pop-up menu that lets you set the file type. If you set this to **json** you'll get color syntax highlighting for your state file.
+
+The state file is used on every subsequent run after the first one to compare known state with current state. This is how Terraform knows whether something should be added, changed, or deleted. If you lose your state file then Terraform will have no way to know what is already under management.
+
+Browse through the state file and look for `admin_password`. Oops - there's a password in plaintext! Terraform does it's best to mask sensitive data in the state file, but secrets can and will sometimes end up in your state file. Always treat the state file as a sensitive artifact because it contains all the data required to provision and keep track of your infrastructure.
+
+Warning: Do not delete your state file and do not commit it to a public git repo. The best practice is to store the state file in a private and secure [remote backend](https://www.terraform.io/docs/language/settings/backends/remote.html) like Terraform Cloud.
 
 ---
 ## ⚙️ Lab 18: Terraform Cloud & Remote State
