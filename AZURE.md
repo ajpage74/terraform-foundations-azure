@@ -41,7 +41,7 @@ https://www.terraform.io/docs/language/state/workspaces.html
 Terraform is an Infrastructure-as-Code (IaC) software tool created by HashiCorp and released in 2014. Terraform allows users to define and provision infrastructure using a declarative configuration language known as HashiCorp Configuration Language (HCL). Terraform manages infrastructure such as public and private cloud instances or VMs, network appliances, Software-as-a-Service (SaaS) and Platform-as-a-Service (PaaS) resources.
 
 ### Modular and Extendible
-Terraform uses a catalog of providers to communicate with different cloud platforms and APIs. The rich provider ecosystem supports a wide variety of different types of cloud and on-premise resources.
+Terraform uses a catalog of providers to communicate with different cloud platforms and APIs. The rich provider ecosystem supports a wide variety of cloud and on-premise resources.
 
 ### Declarative Infrastructure
 The Terraform language, or HCL, is a Domain Specific Language (DSL) that uses a declarative syntax. Declarative configuration allows you to define the desired final state of your resources without having to define the logic necessary to get there. Terraform determines the order that resources need to be provisioned in based on dependencies. For instance, a network needs to be built before a server can be assigned to it. 
@@ -189,7 +189,7 @@ resource "azurerm_resource_group" "tflab_rg" {
 }
 ```
 
-Note: Make sure you understand the difference between the **identifier** which is tflab_rg, and the **name** parameter, which is what shows up in the Azure Portal.
+Note: Make sure you understand the difference between the **identifier** (tflab_rg), and the **name** parameter (tflab-resource-group), which is what shows up in the Azure Portal.
 
 ---
 ### Update the main.tf File
@@ -386,7 +386,7 @@ owner = "Your Name"
 
 Hint: The tags block must be placed *inside* of the resource block.
 
-Once you have your resources tagged properly check your work in the Azure portal. From this point forward we're not going to remind you to run `terraform apply` since you already know the process.
+Once you have your resources tagged properly check your work in the Azure portal. From this point forward we won't always remind you to run `terraform apply` since you already know the process.
 
 ---
 ## ⚙️ Lab 7: Working with Variables
@@ -427,7 +427,7 @@ resource "azurerm_resource_group" "tflab_rg" {
 }
 ```
 
-See how the `var.location` reference has replaced the plain text? Terraform will now allow you to insert any valid location into this space at run time. If the user doesn't choose a value for location it will use the default that you defined in the **variables.tf** file.
+See how the `var.location` reference has replaced the plain text? Terraform will now allow you to insert any valid location at run time. If the user doesn't choose a value for location it will use the default that you defined in the **variables.tf** file.
 
 Run an apply and see if anything changes. Next try changing the default location in your variables file to something different, for example `East US`. Run `terraform apply` again. What happens?
 

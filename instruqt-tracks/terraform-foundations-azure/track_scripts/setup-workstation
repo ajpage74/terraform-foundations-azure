@@ -13,6 +13,9 @@ done
 echo "source /etc/profile.d/instruqt-env.sh" >> /root/.bashrc
 source /root/.bashrc
 
+# Clone the answers repo
+git clone https://github.com/hashicorp/terraform-azure-labs /tmp/terraform-azure-labs
+
 # Set up the web server for instructions
 apt-get update --fix-missing
 apt-get -y install nginx tree
@@ -24,9 +27,9 @@ git clone https://github.com/scarolan/terraform-foundations-azure tfa
 cp -r tfa/images /var/www/html
 cp tfa/AZURE.md /var/www/html/index.md
 
-# Upgrade terraform to 1.0.5
+# Upgrade terraform to 1.0.6
 # This should be removed once the workstation is updated.
-wget https://releases.hashicorp.com/terraform/1.0.5/terraform_1.0.5_linux_amd64.zip -O /tmp/terraform.zip
+wget https://releases.hashicorp.com/terraform/1.0.6/terraform_1.0.6_linux_amd64.zip -O /tmp/terraform.zip
 unzip -o /tmp/terraform.zip -d /usr/local/bin
 chmod +x /usr/local/bin/terraform
 
@@ -41,8 +44,8 @@ if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
 fi
 EOM
 
-# Go home
-cd /root
+# Create sandbox directory
+mkdir /root/sandbox
 
 # Setup script finished
 echo "Setup script finished."

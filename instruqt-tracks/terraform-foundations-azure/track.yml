@@ -40,7 +40,7 @@ challenges:
   - title: Text Editor
     type: code
     hostname: workstation
-    path: /root/workspace
+    path: /root/sandbox
   - title: Shell
     type: terminal
     hostname: workstation

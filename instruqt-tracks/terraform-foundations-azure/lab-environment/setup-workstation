@@ -6,8 +6,7 @@ set -e
 sleep 10
 
 # Set the user's working directory with the set-workdir script, then in subsequent challenges the user will always start in that directory.
-mkdir /root/workspace
-/bin/set-workdir /root/workspace
+/bin/set-workdir /root/sandbox
 
 # Ensure we load /etc/profile.d/instruqt-env.sh
 echo "source /etc/profile.d/instruqt-env.sh" >> /root/.bashrc
