@@ -780,4 +780,6 @@ Example script usage below. This will jump you to the end of Lab 7 and the begin
 catchup.sh 7
 ```
 
+The catchup script can take up to two or three minutes to complete.
+
 Warning: The catchup script is not 100% foolproof. If it fails to run you may need to visit the Azure portal and manually delete your resource group. If it still fails after manual cleanup, simply restart this Instruqt track to create a fresh lab environment then try the catchup script again.
