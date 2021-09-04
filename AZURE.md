@@ -399,7 +399,6 @@ https://www.terraform.io/docs/language/values/variables.html
 ---
 So far all our settings have been hard-coded into our Terraform configs. You'll probably want to make your code more flexible for different users and environments, and that's where variables come in. Variables allow you to replace those hard-coded settings with placeholders that users can change to suit their needs.
 
----
 ### Terraform Variables Basics
 In your Shell tab create a new file called `variables.tf` with the following command:
 
@@ -631,7 +630,7 @@ Add a **remote_exec** provisioner right below the file provisioner in your main.
 
 Try running a `terraform apply` once your provisioners are in place. Nothing changes. Why?
 
-Hint: Remember what we said about provisioners only running on the first `terraform apply`...
+Hint: Remember what we said about provisioners only running on the first apply...
 
 ---
 ### Terraform Taint
@@ -840,6 +839,7 @@ Warning: Do not delete your state file and do not commit it to a public git repo
 ## ⚙️ Lab 20: VCS Driven Collaboration
 
 
+---
 ## ⚙️ Appendix A: A Taste of Git
 <a href="https://en.wikipedia.org/wiki/Git" target="_blank">Git</a> is the worlds most popular version control system (VCS). This appendix lab is a crash course in basic Git usage. We'll be using Git to download the answer key git repo and use it to learn and experiment.
 
