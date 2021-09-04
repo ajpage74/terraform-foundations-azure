@@ -840,7 +840,7 @@ Warning: Do not delete your state file and do not commit it to a public git repo
 
 
 ## ⚙️ Appendix A: A Taste of Git
-<a href="https://en.wikipedia.org/wiki/Git" target="_blank">Git</a> is the worlds most popular version control system (VCS). We'll be using Git to download the answer key for this workshop. We'll use this Git repo to experiment and learn.
+<a href="https://en.wikipedia.org/wiki/Git" target="_blank">Git</a> is the worlds most popular version control system (VCS). This appendix lab is a crash course in basic Git usage. We'll be using Git to download the answer key git repo and use it to learn and experiment.
 
 ---
 ### **Exercise 1:** Fork and Clone
