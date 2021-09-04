@@ -733,7 +733,6 @@ Data sources, Azure platform image, Dad Jokes
 
 **Documentation:**
 https://www.terraform.io/docs/language/data-sources/index.html
-https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/platform_image
 https://www.terraform.io/docs/language/values/locals.html
 https://icanhazdadjoke.com/api
 
