@@ -288,7 +288,7 @@ In the next section you'll add another resource to your code and learn how to co
 ---
 ## ⚙️ Lab 4: Add a Virtual Network
 **Topics Covered:**
-Azure virtual network, interpolation, dependencies
+Azure Virtual Network, Interpolation, Dependencies
 
 **Documentation:**
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_network
@@ -325,7 +325,7 @@ Great work. You now have a virtual network. In the next section we'll get more p
 ---
 ## ⚙️ Lab 5: Create a Subnet
 **Topics Covered:**
-Azure subnet, auto approve
+Azure Subnet, Auto Approve
 
 **Documentation:**
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet
@@ -355,7 +355,7 @@ As before, run a `terraform apply -auto-approve` to check your work. Visit the A
 ---
 ## ⚙️ Lab 6: Tag Your Resources
 **Topics Covered:**
-Tagging, nested blocks
+Tagging, Nested Blocks
 
 **Documentation:**
 https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources?tabs=json
@@ -540,7 +540,7 @@ Warning: This powerful command can take down your entire production environment 
 ---
 ## ⚙️ Lab 10: Create a Linux VM
 **Topics Covered:**
-Azure Linux virtual machine, random provider, random pets
+Azure Linux Virtual Machine, Random Provider, Random Pets
 
 **Documentation:**
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine
@@ -573,7 +573,7 @@ Note: The terraform run will output some URLs for your web server but they aren'
 ---
 ## ⚙️ Lab 11: Provisioners
 **Topics Covered:**
-Terraform provisioners, file provisioner, remote_exec provisioners, terraform taint
+Terraform Provisioners, File Provisioner, Remote Exec Provisioners, Terraform Taint
 
 **Documentation:**
 https://www.terraform.io/docs/language/resources/provisioners/
@@ -687,7 +687,7 @@ Hint: All of your resources support tagging except for `random_pet`, `azurerm_su
 
 ## ⚙️ Lab 13: Format (fmt)
 **Topics Covered:**
-terraform fmt
+Terraform fmt
 
 **Documentation:**
 https://www.terraform.io/docs/cli/commands/fmt.html
@@ -706,7 +706,7 @@ Open the **main.tf** file and behold the neatness. If you have OCD tendencies, y
 ---
 ## ⚙️ Lab 14: Built-in Functions
 **Topics Covered:**
-Built-in functions
+Built-in Functions
 
 **Documentation:**
 https://www.terraform.io/docs/language/functions/index.html
@@ -728,7 +728,7 @@ Look at the Azure portal and verify that your resources all received the new tag
 ---
 ## ⚙️ Lab 15: Data Sources
 **Topics Covered:**
-Data sources, Azure platform image, Dad Jokes
+Data Sources, Azure Platform Image, Dad Jokes
 
 **Documentation:**
 https://www.terraform.io/docs/language/data-sources/index.html
@@ -780,7 +780,7 @@ Hint: You can look at [Terraform outputs documentation](https://www.terraform.io
 ---
 ## ⚙️ Lab 16: Modules
 **Topics Covered:**
-Terraform modules, Public module registry
+Terraform Modules, Public Module Registry
 
 **Documentation:**
 https://registry.terraform.io/
@@ -809,7 +809,7 @@ Hint: You can use your random pet name for the unique name of `public_ip_dns`. T
 ---
 ## ⚙️ Lab 17: State
 **Topics Covered:**
-Terraform state
+Terraform State
 
 **Documentation:**
 https://www.terraform.io/docs/language/state/index.html
@@ -828,16 +828,361 @@ Browse through the state file and look for `admin_password`. Oops - there's a pa
 Warning: Do not delete your state file and do not commit it to a public git repo. The best practice is to store the state file in a private and secure [remote backend](https://www.terraform.io/docs/language/settings/backends/remote.html) like Terraform Cloud.
 
 ---
+### Prepare Your Workspace
+Before we proceed we are going to simplify your configuration and go back to a single virtual machine to keep things simple. Your terraform runs will go faster with just one VM to worry about.
+
+Run the following setup command to prepare your environment for Lab 18:
+
+```bash
+setup.sh 18
+```
+
+The script can take several minutes to run. Take a break here and return to the lab once the setup is complete.
+
+---
 ## ⚙️ Lab 18: Terraform Cloud & Remote State
+**Topics Covered:**
+Terraform Cloud, Remote Backend, Terraform Login
 
+**Documentation:**
+https://www.terraform.io/cloud
+https://www.terraform.io/docs/language/settings/backends/remote.html
+https://www.terraform.io/docs/cli/commands/login.html
+
+**Summary:** In this lab you'll migrate your local state file into the secure Terraform Cloud remote backend.
 
 ---
-## ⚙️ Lab 19: Version Control System (VCS)
+[Terraform Cloud](https://www.terraform.io/cloud) is a SaaS application that provides features like state storage, version control integration, policy enforcement, and more.
 
+Until now we've been using Terraform Open Source to do all our work locally on our Linux workstation. This is fine for development and experimentation, but in a real environment you will want to store your state file in a secure [remote backend](https://www.terraform.io/docs/language/settings/backends/remote.html). Several different remote backends are supported for state file storage, but the easiest one to use is Terraform Cloud.
 
 ---
-## ⚙️ Lab 20: VCS Driven Collaboration
+### Create an Account and Organization
+If you don't have a Terraform Cloud account yet go ahead and sign up for one here. If you do have an account sign into it now.
+https://www.terraform.io/cloud
 
+Next, create a new organization. The name of your new organization must be unique. You may wish to use something like **myname-tflab**. 
+
+![Create an Organization](images/create_an_org.png)
+
+The next page will ask you to create a new workspace. **Do not do this yet.** We're going to create a workspace automatically in the next step.
+
+---
+### Log on from the CLI
+The Terraform command line tool comes with a helper command called `terraform login`. Run the command now to generate a new API token and configure it:
+
+```bash
+terraform login
+```
+
+You'll see a message like the one below. Enter `yes` to proceed:
+
+```
+root@workstation:~/sandbox# terraform login
+Terraform will request an API token for app.terraform.io using your browser.
+
+If login is successful, Terraform will store the token in plain text in
+the following file for use by subsequent commands:
+    /root/.terraform.d/credentials.tfrc.json
+
+Do you want to proceed?
+  Only 'yes' will be accepted to confirm.
+
+  Enter a value:
+```
+
+Next you'll be prompted to visit the token generation page.  Click the link in the message to go to that page now.
+
+```
+---------------------------------------------------------------------------------
+
+Open the following URL to access the tokens page for app.terraform.io:
+    https://app.terraform.io/app/settings/tokens?source=terraform-login
+
+---------------------------------------------------------------------------------
+
+Generate a token using your browser, and copy-paste it into this prompt.
+
+Terraform will store the token in plain text in the following file
+for use by subsequent commands:
+    /root/.terraform.d/credentials.tfrc.json
+```
+
+You can choose a descriptive name for this token so you can easily identify it later.
+
+![Name Your Token](images/name_your_token.png)
+
+Click on **Create API Token** to proceed.
+
+Finally you need to copy this token and paste it back into the waiting prompt in your Shell terminal. You won't see the token show up on the screen. The simplest way to ensure that you paste the token in correctly is to right click in the Shell terminal and select **Paste**. If all went well you'll see welcome message with the Terraform logo:
+
+![TFC Console Welcome](images/tfc_welcome_message.png)
+
+---
+### Configure Remote State
+Now we're ready to configure remote state storage for our workspace. Create a new file called `remote_backend.tf` in your sandbox directory:
+
+```bash
+touch remote_backend.tf
+```
+
+Now populate that file with the following code, replacing `my-organization` with the name of your own organization:
+
+```
+terraform {
+  backend "remote" {
+    organization = "my-organization"
+
+    workspaces {
+      name = "tflab"
+    }
+  }
+}
+```
+
+Save your remote backend file.
+
+Now you can migrate your local state file into the TFC remote backend. Run a `terraform init` command:
+
+```bash
+terraform init
+```
+
+Terraform will automatically detect the local state file and aks you if you wish to migrate it:
+
+```
+Do you want to copy existing state to the new backend?
+  Pre-existing state was found while migrating the previous "local" backend to the
+  newly configured "remote" backend. No existing state was found in the newly
+  configured "remote" backend. Do you want to copy this state to the new "remote"
+  backend? Enter "yes" to copy and "no" to start with an empty state.
+
+  Enter a value:
+```
+
+Enter **yes** to proceed. Look for the following message:
+
+```
+Terraform has been successfully initialized!
+```
+
+If you see this message it is now safe to delete your local state file. Let's do that now:
+
+```bash
+rm terraform.tfstate
+```
+
+There's one last step required to set up Terraform for local runs with remote state storage. Go to the Terraform Cloud website and click on the **Workspaces** tab. You'll see a new workspace called **tflab**. Click on the tflab workspace.
+
+Next, click on the **Settings** > **General** link from the pull-down menu:
+
+![General Settings](images/workspace_settings.png)
+
+Scroll down a bit to the **Execution Mode** section and change it to **Local**.
+
+![Local Execution](images/local_execution.png)
+
+Scroll down to the bottom of the page and click the **Save Settings** button.
+
+---
+### Trigger a Run
+Now you're ready to trigger a terraform run using remote state storage. Try it in your Shell tab now:
+
+```bash
+terraform apply -auto-approve
+```
+
+You may now see all your state history in the **States** tab of your workspace in TFC. The state file will be automatically locked if a run is in progress:
+
+![State Lock](images/state_lock.png)
+
+Congratulations, now your state files are securely stored in Terraform Cloud where they won't accidentally be deleted or lost.
+
+---
+## ⚙️ Lab 19: Remote Execution
+**Topics Covered:**
+Remote Execution, Secure Variables, Terraform Cloud Variables
+
+**Documentation:**
+https://www.terraform.io/docs/cloud/run/index.html
+
+**Summary:** In this lab you'll switch from local execution on your workstation to remote execution in the cloud.
+
+---
+All your terraform runs so far have happened on your workstation. This is fine for development and testing but in secure automated environments it's better to use the [Remote Execution](https://www.terraform.io/docs/cloud/run/index.html#remote-operations) capability of Terraform Cloud. Let's migrate to remote execution.
+
+Go into the **General** page of your workspace settings and switch the execution mode back to **Remote**. Now try another Terraform apply:
+
+```bash
+terraform apply -auto-approve
+```
+
+Whoops - it looks like we don't have any credentials! This is because we haven't copied our Azure credentials into secure variables in TFC yet. Let's fix that now. Visit the **Variables** tab in your workspace settings and scroll down to the bottom where you see **Environment Variables**.
+
+You can reveal your Azure service principal credentials with the following command:
+
+```bash
+env | grep "ARM_"
+```
+
+Note how there are four parts to your credentials:
+
+```
+ARM_SUBSCRIPTION_ID=c4ea3374-2ed2-4ddc-b88f-e299f095c630
+ARM_TENANT_ID=ab2e4aa2-3855-48b9-8d02-619cee6d9513
+ARM_CLIENT_SECRET=Pn0-LA79UpImv3GL
+ARM_CLIENT_ID=2717c06b-eeb5-4de9-948e-4399ab9e868e
+```
+
+All four of thes environment variables must be configured in TFC. Use the **Add Variable** button to create a new environment variable for each of them. Mark the `ARM_CLIENT_SECRET` variable as sensitive so it is not show in plain text!
+
+When you're done you should have four variables underneath the **Environment Variables** section (not the top Terraform Variables section):
+
+![Environment Variables in TFC](images/environment_variables.png)
+
+Now you can trigger another Terraform run:
+
+```bash
+terraform apply -auto-approve
+```
+
+Note that the run is now happening inside TFC with the output being streamed back to your terminal. You may also trigger Terraform runs using the Terraform UI. Try clicking on the **Actions** pulldown menu in the upper right corner and kick off a run from the UI:
+
+![Trigger Plan from UI](images/trigger_plan_ui.png)
+
+You can also watch the plan run via the UI. Note how the GUI provides a more graphical view of what resources are being created.
+
+Great work, you have now securely stored your Azure credentials and enabled remote runs. There's one problem though - your Terraform code is all still stored on your workstation. This makes it difficult for other users to collaborate on changes, and it also exposes you to risk.
+
+In the next lab we'll migrate all of your Terraform code into a Git repo, and then connect the repo to Terraform Cloud for automated, VCS-driven runs.
+
+---
+## ⚙️ Lab 20: Version Control System (VCS)
+**Topics Covered:**
+Version Control Systems, Git, VCS Integration
+
+**Documentation:**
+https://www.terraform.io/docs/cloud/vcs/index.html
+
+**Summary:** In this lab you'll move your code into a Git repo and connect it to your TFC workspace.
+
+---
+Note: If you haven't used Git before we strongly recommend doing the **Appendix A: A Taste of Git** lab before proceeding. A basic understanding of Git is required for this lab to go smoothly.
+
+Before we create your new GitHub repository a bit of housekeeping is required. Do the setup steps below:
+
+---
+### Set Up Your Username and Email
+Before we start working with the Git command line we need to run two housekeeping commands. These commands identify you so that your code commits can be tagged. Run these two commands in your Shell tab, replacing the name and email with your own:
+
+```bash
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+```
+
+---
+### Create a New GitHub Repo
+If you don't have a [github.com](https://github.com/) account yet go ahead and create one. Next, use the plus sign menu in the upper right corner of the screen to create a **New Repository**. Name your repository **tflab**. Select the box that says **Add .gitignore** and choose the Terraform option. This ensures that sensitive files like your state file and variables files do not accidentally end up getting committed to the repo.
+
+![gitignore config](images/gitignore_setting.png)
+
+Now you have an empty repository to work with. 
+
+---
+### Clone the Remote Repo
+In this step we'll clone the empty repository onto our local machine. Run the following commands to change into your home directory and clone the repo:
+
+```bash
+cd /root
+git clone https://github.com/YOURUSER/tflab
+```
+
+Now copy all the files from your **sandbox** directory into the newly cloned **tflab** directory:
+
+```bash
+cp -r /root/sandbox/* /root/tflab/
+```
+
+Change into the tflab directory. This is where you'll be working for the rest of the labs.
+
+```bash
+cd /root/tflab
+```
+
+Note: Whoa, what happpened to our prompt? We've installed a special git-enabled shell prompt that will show useful information about the Git repo you're in. You can learn more about that in Appendix A.
+
+---
+### Git Credentials Config
+Note: GitHub passwords are no longer supported for command line access so you'll need to create a Personal Access Token. If you already have a Personal Access Token you may skip this section.
+
+Visit this link in a web browser and click on the **Generate New Token** button:
+
+https://github.com/settings/tokens
+
+In the Note section you can enter "Terraform Azure Lab". Under the Select Scopes section check the box next to **repo**.
+
+![Git Token Creation](images/git_token.png)
+
+Click on **Generate Token** at the bottom of the page. GitHub will generate you a new personal access token. Save this token in a text file as you'll need it in a moment.
+
+![Personal Access Token](images/personal_access_token.png)
+
+Configure the Git Credential Helper so you won't have to copy your token in every time you make a change. Run this command to set up the credential helper to store your creds for 4 hours.
+
+```bash
+git config credential.helper 'cache --timeout 14400'
+```
+
+---
+### Add, Commit and Push Changes
+Now that we have a local copy of our git repo we can add all the files in the tflab directory to staging:
+
+```bash
+git add .
+```
+
+Next, commit your files:
+
+```bash
+git commit -m "Initial commit."
+```
+
+Finally push your changes to the remote repo:
+```bash
+git push
+```
+
+Verify that your repo contains copies of all the local files in your workspace:
+
+![Git Repo Example](images/repo_example.png)
+
+Great work. You're now ready to enable VCS-driven Terraform runs.
+
+---
+## ⚙️ Lab 21: VCS Driven Collaboration
+**Topics Covered:**
+Version Control Systems, VCS-Driven Runs
+
+**Documentation:**
+https://www.terraform.io/docs/cloud/run/index.html
+https://www.terraform.io/docs/cloud/vcs/github.html
+
+**Summary:** In this lab you'll connect TFC directly to your GitHub repo for automated provisioning based on Infrastructure as Code.
+
+---
+Once you connect a VCS repository to your Terraform Cloud workspace, **all** changes to the code must be stored in the VCS before Terraform will execute them. This ensures that you have no unauthorized changes to your infrastructure as code.
+
+In addition it allows you to enable features like code reviews, pull requests, and automated testing of your code.
+
+Follow the **Configuring GitHub Access** section of the TFC documentation to connect your GitHub account to your Terraform Organization:
+
+https://www.terraform.io/docs/cloud/vcs/github.html
+
+Once you have completed the integration process you can go into your workspace settings and connect your workspace to Version Control:
+
+![Connect VCS](images/connect_vcs.png)
+
+Congratulations, you have enabled VCS-backed runs for your workspace. This unlocks all sorts of useful features like code reviews, automated tests, and tracking of all changes.
 
 ---
 ## ⚙️ Appendix A: A Taste of Git
