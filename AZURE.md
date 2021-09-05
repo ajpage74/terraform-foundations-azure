@@ -802,7 +802,11 @@ https://registry.terraform.io/modules/Azure/compute/azurerm/latest
 
 Copy the `linuxservers` module block and `linux_vm_public_name` from the example code in the docs into your own **main.tf** and **outputs.tf** files. Adjust the settings so that the `resource_group_name`, `vnet_subnet_id`, `public_ip_dns` and `depends_on` settings are correct.
 
-Run a `terraform apply` and test your code. You should see the module build a second Linux server in your virtual network.
+You'll need to run another `terraform init` since you added a new module to your configuration.
+
+Run a `terraform apply` and test your code. You should see the module build a second Linux server in your virtual network. Verify that you have two virtual machines in the Azure portal:
+
+![Two VMs](images/two_servers.png)
 
 Hint: You can use your random pet name for the unique name of `public_ip_dns`. This is one of the more challenging labs. Don't be afraid to take a [peek at the answer](https://github.com/hashicorp/terraform-azure-labs/blob/main/lab_answers/16/main.tf#L185-L193) if you are stuck.
 
@@ -819,7 +823,7 @@ https://www.terraform.io/docs/language/state/index.html
 ---
 Terraform is a *stateful* application. Every time you run an apply Terraform takes a snapshot of the infrastructure that was built and stores what it knows about the state in a file named `terraform.tfstate`. You may have noticed this file sitting there in your workspace. Go ahead and open it up in your Text Editor now.
 
-You can enable color syntax highlighting in the Text Editor to make the file easier to read. In the far lower right corner of your editor there is a pop-up menu that lets you set the file type. If you set this to **json** you'll get color syntax highlighting for your state file.
+Hint: You can enable color syntax highlighting in the Text Editor to make the file easier to read. In the far lower right corner of your editor there is a pop-up menu that lets you set the file type. If you set this to **json** you'll get color syntax highlighting for your state file.
 
 The state file is used on every subsequent run after the first one to compare known state with current state. This is how Terraform knows whether something should be added, changed, or deleted. If you lose your state file then Terraform will have no way to know what is already under management.
 
@@ -836,6 +840,8 @@ Run the following setup command to prepare your environment for Lab 18:
 ```bash
 setup.sh 18
 ```
+
+Warning: Do not skip this step! If you don't run the setup script first the next labs will not go well for you.
 
 The script can take several minutes to run. Take a break here and return to the lab once the setup is complete.
 
