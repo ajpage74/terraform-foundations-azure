@@ -1160,7 +1160,7 @@ Verify that your repo contains copies of all the local files in your workspace:
 Great work. You're now ready to enable VCS-driven Terraform runs.
 
 ---
-## ⚙️ Lab 21: VCS Driven Collaboration
+## ⚙️ Lab 21: VCS Backed Workspaces
 **Topics Covered:**
 Version Control Systems, VCS-Driven Runs
 
