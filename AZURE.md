@@ -1096,8 +1096,6 @@ cd /root
 git clone https://github.com/YOURUSER/tflab
 ```
 
-You'll be prompted for a username and password since this is a private repository. 
-
 Now copy all the files from your **sandbox** directory into the newly cloned **tflab** directory:
 
 ```bash
@@ -1152,6 +1150,8 @@ Finally push your changes to the remote repo:
 ```bash
 git push
 ```
+
+Here you'll be prompted for a username and password. Enter your GitHub username and instead of your password, copy in the Personal Access Token that you generated in the previous step. The credential helper will cache your credentials so you don't have to paste them in every time you run a `git push`.
 
 Verify that your repo contains copies of all the local files in your workspace:
 
