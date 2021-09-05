@@ -859,6 +859,7 @@ Until now we've been using Terraform Open Source to do all our work locally on o
 ---
 ### Create an Account and Organization
 If you don't have a Terraform Cloud account yet go ahead and sign up for one here. If you do have an account sign into it now.
+
 https://www.terraform.io/cloud
 
 Next, create a new organization. The name of your new organization must be unique. You may wish to use something like **myname-tflab**. 
@@ -1034,7 +1035,7 @@ ARM_CLIENT_SECRET=Pn0-LA79UpImv3GL
 ARM_CLIENT_ID=2717c06b-eeb5-4de9-948e-4399ab9e868e
 ```
 
-All four of thes environment variables must be configured in TFC. Use the **Add Variable** button to create a new environment variable for each of them. Mark the `ARM_CLIENT_SECRET` variable as sensitive so it is not show in plain text!
+All four of these environment variables must be configured in TFC. Use the **Add Variable** button to create a new environment variable for each of them. Mark the `ARM_CLIENT_SECRET` variable as sensitive so it is not shown in plain text!
 
 When you're done you should have four variables underneath the **Environment Variables** section (not the top Terraform Variables section):
 
@@ -1183,6 +1184,17 @@ Once you have completed the integration process you can go into your workspace s
 ![Connect VCS](images/connect_vcs.png)
 
 Congratulations, you have enabled VCS-backed runs for your workspace. This unlocks all sorts of useful features like code reviews, automated tests, and tracking of all changes.
+
+---
+## 💡 Further Resources
+If you'd like to learn more about Terraform and Terraform Cloud here are some useful links you can explore:
+
+https://learn.hashicorp.com/
+https://docs.microsoft.com/en-us/azure/developer/terraform/overview
+https://docs.microsoft.com/en-us/azure/developer/terraform/
+https://learn.hashicorp.com/collections/terraform/azure-get-started
+https://www.youtube.com/watch?v=Axs2IH94hbA
+https://azuredevopslabs.com/labs/vstsextend/terraform/
 
 ---
 ## ⚙️ Appendix A: A Taste of Git
