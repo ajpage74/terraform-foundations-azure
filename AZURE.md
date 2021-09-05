@@ -959,7 +959,7 @@ Terraform will configure your workspace with the TFC remote backend.
 
 Warning: If you get a prompt to migrate your state file, answer **no** to the prompt. This happens when Terraform detects an existing state file in the local directory. Fix the problem by running `setup.sh 18`, then reconfigure your **remote_backend.tf** file as above and repeat the `terraform init` command.
 
-Enter **yes** to proceed. Look for the following message:
+Look for the following message:
 
 ```
 Terraform has been successfully initialized!
