@@ -82,7 +82,7 @@ terraform -help
 Terraform files should always be stored in a workspace directory. We've created a directory for you called **sandbox**. All your terraform commands should be run from within the sandbox directory. Use the cd command to move into the sandbox directory if you're not there already:
 
 ```bash
-cd sandbox
+cd /root/sandbox
 ```
 
 Terraform code files always end in a `.tf` extension. By convention, the main configuration file is called `main.tf`.
