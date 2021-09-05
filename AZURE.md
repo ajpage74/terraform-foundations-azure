@@ -1081,7 +1081,7 @@ git config --global user.name "Your Name"
 
 ---
 ### Create a New GitHub Repo
-If you don't have a [github.com](https://github.com/) account yet go ahead and create one. Next, use the plus sign menu in the upper right corner of the screen to create a **New Repository**. Name your repository **tflab**. Select the box that says **Add .gitignore** and choose the Terraform option. This ensures that sensitive files like your state file and variables files do not accidentally end up getting committed to the repo.
+If you don't have a [github.com](https://github.com/) account yet go ahead and create one. Next, use the plus sign menu in the upper right corner of the screen to create a **New Repository**. Name your repository **tflab** and make sure you set the repo to **Public** access. Select the box that says **Add .gitignore** and choose the Terraform option. This ensures that sensitive files like your state file and variables files do not accidentally end up getting committed to the repo.
 
 ![gitignore config](images/gitignore_setting.png)
 
@@ -1095,6 +1095,8 @@ In this step we'll clone the empty repository onto our local machine. Run the fo
 cd /root
 git clone https://github.com/YOURUSER/tflab
 ```
+
+You'll be prompted for a username and password since this is a private repository. 
 
 Now copy all the files from your **sandbox** directory into the newly cloned **tflab** directory:
 
