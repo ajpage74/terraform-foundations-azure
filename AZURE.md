@@ -955,17 +955,9 @@ Now you can migrate your local state file into the TFC remote backend. Run a `te
 terraform init
 ```
 
-Terraform will automatically detect the local state file and aks you if you wish to migrate it:
+Terraform will configure your workspace with the TFC remote backend.
 
-```
-Do you want to copy existing state to the new backend?
-  Pre-existing state was found while migrating the previous "local" backend to the
-  newly configured "remote" backend. No existing state was found in the newly
-  configured "remote" backend. Do you want to copy this state to the new "remote"
-  backend? Enter "yes" to copy and "no" to start with an empty state.
-
-  Enter a value:
-```
+Warning: If you get a prompt to migrate your state file, answer **no** to the prompt. This happens when Terraform detects an existing state file in the local directory. Fix the problem by running `setup.sh 18`, then reconfigure your **remote_backend.tf** file as above and repeat the `terraform init` command.
 
 Enter **yes** to proceed. Look for the following message:
 
