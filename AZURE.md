@@ -1183,6 +1183,10 @@ Once you have completed the integration process you can go into your workspace s
 
 ![Connect VCS](images/connect_vcs.png)
 
+Select the **tflab** repo in the configuration wizard. All the default settings are fine.
+
+![Select Repo](images/connect_to_repo.png)
+
 Congratulations, you have enabled VCS-backed runs for your workspace. This unlocks all sorts of useful features like code reviews, automated tests, and tracking of all changes.
 
 ---
