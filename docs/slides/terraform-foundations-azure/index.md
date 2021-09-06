@@ -1,10 +1,10 @@
-name: Azure-Terraform-Vault-Workshop
+name: Terraform-Foundations-Azure
 class: center
 count: false
 ![:scale 60%](images/tfaz.png)
 <br><br>
-## Azure Terraform Workshop
-### Build Azure Resources With Infrastructure as Code
+## Terraform Foundations on Azure
+### An Interactive HashiCorp Workshop
 ???
 INSTRUCTOR GUIDE LINK: https://github.com/hashicorp/field-workshops-terraform/blob/main/instructor-guides/azure_intro_to_terraform_INSTRUCTOR_GUIDE.md
 
@@ -53,43 +53,15 @@ The favorite text editor question is a good ice breaker, but perhaps more import
 **If you don't have a favorite text editor, that's okay! Our cloud lab has Visual Studio Code preinstalled. VSC is a free programmer's text editor for Microsoft, and it has great Terraform support. Most of this workshop will be simply copying and pasting code, so if you're not a developer don't fret. Terraform is easy to learn and fun to work with.**
 
 ---
-name: Link-to-Slide-Deck
-# The Slide Deck
-<br><br><br>
-Follow along on your own computer at this link:
-
-# https://git.io/JeuCI
-
----
-name: Table-of-Contents
-# Table of Contents
-
-1. Intro to Terraform & Demo<br>
-1. Terraform Basics<br>
-👩‍🔬 **Lab - Setup and Basic Usage**<br>
-1. Terraform In Action: plan, apply, destroy<br>
-1. Organizing Your Terraform Code<br>
-🧪 **Lab - Terraform in Action**<br>
-1. Provision and Configure Azure VMs<br>
-🔬 **Lab - Provisioning with Terraform**<br>
-1. Manage and Change Infrastructure State<br>
-1. Terraform Cloud<br>
-⚗️ **Lab - Terraform Remote State**
-
-
-???
-This workshop should take roughly three hours to complete.
-
-**Here is our agenda for today's training. The format is simple, you'll hear a lecture and view slides on each topic, then participate in a hands-on lab about that topic. We'll alternate between lecture and lab, with a couple of breaks thrown in.**
+name: lab-environment
+# 👩‍💻 Your Lab Environment
+<br><br>
+[Instruqt](https://instruqt.com) is the HashiCorp training platform. It's a browser-based lab environment where you can practice building infrastructure in your own Azure sandbox subscription.
 
 ---
 name: intro-to-terraform-demo
 class: title
-# Chapter 1
-## Introduction to Terraform
-
-???
-We use the word chapter here, because the training should feel like a story unfolding. The instructor's job is to guide the learners through this interactive story.
+# Infrastructure as Code
 
 ---
 name: How-to-Provision-a-VM
@@ -438,10 +410,9 @@ class: title
 **This is Infrastructure as code. By the end of today's training you'll be able to create your own infrastructure using Terraform.**
 
 ---
-name: Chapter-2
+name: Terraform-Basics
 class: title
-# Chapter 2
-## Terraform Basics
+# Terraform Basics
 
 ???
 **Now that you have terraform installed and working with Azure, we can do a few dry runs before building real infrastructure. Follow along carefully, copying and pasting the commands on each slide into your shell as we go.**
@@ -546,6 +517,73 @@ Most terraform workspaces contain a minimum of three files:
 **outputs.tf** - Define what is shown at the end of a terraform run.<br>
 
 ---
+name: provider-block
+# Terraform Provider Configuration
+The terraform core program requires at least one provider to build anything.
+
+You can manually configure which version(s) of a provider you would like to use. If you leave this option out, Terraform will default to the latest available version of the provider.
+
+```hcl
+provider "azurerm" {
+  version = "=1.35.0"
+}
+```
+
+---
+name: resources-building-blocks
+# Resources - Terraform Building Blocks
+```hcl
+resource "azurerm_resource_group" "hashitraining" {
+  name     = "${var.prefix}-workshop"
+  location = "${var.location}"
+}
+```
+
+Here is the first resource we'll be building in the next lab. The variables will be replaced with your own settings or default values.
+
+Terraform is easy to work with. You can test your code as you write it.
+
+Simply keep adding more building blocks until your infrastructure is complete.
+
+---
+name: anatomy-of-a-resource
+# Anatomy of a Resource
+Every terraform resource is structured exactly the same way.
+```terraform
+resource "type" "name" {
+  parameter = "foo"
+  parameter2 = "bar"
+  list = ["one", "two", "three"]
+}
+```
+**resource** = Top level keyword<br>
+**type** = Type of resource. Example: `azurerm_virtual_machine`.<br>
+**name** = Arbitrary name to refer to this resource. Used internally by terraform. This field *cannot* be a variable.
+
+???
+Everything else you want to configure within the resource is going to be sandwiched between the curly braces. These can include strings, lists, and maps.
+
+---
+name: dependency-mapping
+class: compact
+# Terraform Dependency Mapping
+Terraform can automatically keep track of dependencies for you. Look at the two resources below. Note the highlighted line in the azurerm_virtual_network resource. This is how we tell one resource to refer to another in terraform.
+
+```terraform
+resource "azurerm_resource_group" "hashitraining" {
+  name     = "${var.prefix}-vault-workshop"
+  location = "${var.location}"
+}
+
+resource "azurerm_virtual_network" "vnet" {
+  name                = "${var.prefix}-vnet"
+  location            = "${azurerm_resource_group.hashitraining.location}"
+  address_space       = ["${var.address_space}"]
+* resource_group_name = "${azurerm_resource_group.hashitraining.name}"
+}
+```
+
+---
 name: terraform-init
 # Terraform Init
 ```tex
@@ -584,135 +622,6 @@ Preview your changes with `terraform plan` before you apply them.
 
 ???
 **`terraform plan` is a dry run command. We're not actually building anything yet, Terraform is just telling is what it would do if we ran it for real.**
-
----
-name: defining-variables
-# Where are Variables Defined?
-Terraform variables are placed in a file called *variables.tf*. Variables can have default settings. If you omit the default, the user will be prompted to enter a value. Here we are *declaring* the variables that we intend to use.
-
-```tex
-variable "prefix" {
-  description = "This prefix will be included in the name of most resources."
-}
-
-variable "location" {
-  description = "The region where the virtual network is created."
-* default     = "centralus"
-}
-```
-
-???
-**If you're curious where all these variables are defined, you can see them all in the _variables.tf_ file. Here we are simply defining all the available settings, and optionally declaring some default values. These defaults are what terraform will use if your user doesn't override them with their own settings.**
-
-Q. Where could you override these defaults?<br>
-A. In the terraform.tfvars file, or optionally on the command line or via environment variables. The most common approach is to use a tfvars file.
-
----
-name: setting-variables
-class: col-2
-# How are Variables Set?
-Once you have some variables defined, you can set and override them in different ways. Here is the level of precedence for each method.
-
-This list goes from highest precedence (1) to lowest (5).
-
-<br>
-1. Command line flag - run as a command line switch
-1. Configuration file - set in your terraform.tfvars file
-1. Environment variable - part of your shell environment
-1. Default Config - default value in variables.tf
-1. User manual entry - if not specified, prompt the user for entry
-
----
-name: lab-exercise-0
-# 👩‍💻 Getting Started with Instruqt
-<br><br>
-[Instruqt](https://instruqt.com) is the HashiCorp training platform. Visit the link below for a short tutorial, or if you're already familiar with Instruqt you can skip to the next slide.
-
-[https://instruqt.com/instruqt/tracks/getting-started-with-instruqt](https://instruqt.com/instruqt/tracks/getting-started-with-instruqt)
-
----
-name: lab-exercise-1
-# 👩‍💻 Lab Exercise: Terraform Basics
-<br><br>
-In this lab you'll learn how to set up your editor, use the Terraform command line tool, integrate with Azure Cloud, and do a few dry runs with different settings.
-
-Your instructor will provide the URL for the lab environment.
-
-🛑 **STOP** after you complete the second quiz.
-
----
-name: chapter-2-review
-# 📝 Chapter 2 Review
-.contents[
-In this chapter we:
-* Used the **`terraform init`** command
-* Ran the **`terraform plan`** command
-* Learned about variables
-* Set our location and prefix
-]
-
----
-name: Chapter-3
-class: title
-# Chapter 3
-## Terraform in Action
-
-???
-**In this chapter we'll actually build real infrastructure using our sample code.**
-
----
-name: anatomy-of-a-resource
-# Anatomy of a Resource
-Every terraform resource is structured exactly the same way.
-```terraform
-resource "type" "name" {
-  parameter = "foo"
-  parameter2 = "bar"
-  list = ["one", "two", "three"]
-}
-```
-**resource** = Top level keyword<br>
-**type** = Type of resource. Example: `azurerm_virtual_machine`.<br>
-**name** = Arbitrary name to refer to this resource. Used internally by terraform. This field *cannot* be a variable.
-
-???
-Everything else you want to configure within the resource is going to be sandwiched between the curly braces. These can include strings, lists, and maps.
-
----
-name: provider-block
-# Terraform Provider Configuration
-The terraform core program requires at least one provider to build anything.
-
-You can manually configure which version(s) of a provider you would like to use. If you leave this option out, Terraform will default to the latest available version of the provider.
-
-```hcl
-provider "azurerm" {
-  version = "=1.35.0"
-}
-```
-
----
-name: resources-building-blocks
-# Resources - Terraform Building Blocks
-```hcl
-resource "azurerm_resource_group" "hashitraining" {
-  name     = "${var.prefix}-workshop"
-  location = "${var.location}"
-}
-```
-
-Here is the first resource we'll be building in the next lab. The variables will be replaced with your own settings or default values.
-
-Terraform is easy to work with. You can test your code as you write it.
-
-Simply keep adding more building blocks until your infrastructure is complete.
-
-???
-**Try commenting out this code, then uncommenting it. This is the easy way to write code. Just highlight, uncomment, save the file.**
-
-**Resources are the smallest building blocks of Terraform. Think of them as declarative statements about what you want to build. Save the main.tf file.**
-
-**Note that the resource contains references to the two variables we set in the previous chapter, location and prefix. These will be replaced when we run terraform commands. Variables are always enclosed in a dollar sign and curly braces.**
 
 ---
 name: terraform-apply
@@ -771,24 +680,54 @@ terraform fmt
 Simply run it in a directory containing *.tf files and it will tidy up your code for you.
 
 ---
-name: dependency-mapping
-class: compact
-# Terraform Dependency Mapping
-Terraform can automatically keep track of dependencies for you. Look at the two resources below. Note the highlighted line in the azurerm_virtual_network resource. This is how we tell one resource to refer to another in terraform.
+name: terraform-refresh
+# Terraform Refresh
+Sometimes infrastructure may be changed outside of Terraform's control.
 
-```terraform
-resource "azurerm_resource_group" "hashitraining" {
-  name     = "${var.prefix}-vault-workshop"
-  location = "${var.location}"
+The state file represents the *last known* state of the infrastructure. If you'd like to check and see if the state file still matches what you built, you can use the **terraform refresh** command.
+
+Note that this does *not* update your infrastructure, it simply updates the state file.
+
+```bash
+terraform refresh
+```
+
+---
+name: defining-variables
+# Where are Variables Defined?
+Terraform variables are placed in a file called *variables.tf*. Variables can have default settings. If you omit the default, the user will be prompted to enter a value. Here we are *declaring* the variables that we intend to use.
+
+```tex
+variable "prefix" {
+  description = "This prefix will be included in the name of most resources."
 }
 
-resource "azurerm_virtual_network" "vnet" {
-  name                = "${var.prefix}-vnet"
-  location            = "${azurerm_resource_group.hashitraining.location}"
-  address_space       = ["${var.address_space}"]
-* resource_group_name = "${azurerm_resource_group.hashitraining.name}"
+variable "location" {
+  description = "The region where the virtual network is created."
+* default     = "centralus"
 }
 ```
+
+???
+**If you're curious where all these variables are defined, you can see them all in the _variables.tf_ file. Here we are simply defining all the available settings, and optionally declaring some default values. These defaults are what terraform will use if your user doesn't override them with their own settings.**
+
+Q. Where could you override these defaults?<br>
+A. In the terraform.tfvars file, or optionally on the command line or via environment variables. The most common approach is to use a tfvars file.
+
+---
+name: setting-variables
+class: col-2
+# How are Variables Set?
+Once you have some variables defined, you can set and override them in different ways. Here is the level of precedence for each method.
+
+This list goes from highest precedence (1) to lowest (5).
+
+<br>
+1. Command line flag - run as a command line switch
+1. Configuration file - set in your terraform.tfvars file
+1. Environment variable - part of your shell environment
+1. Default Config - default value in variables.tf
+1. User manual entry - if not specified, prompt the user for entry
 
 ---
 name: organizing-your-terraform
@@ -876,47 +815,6 @@ output "catapp_url" {
 **This bit here with the EOF is an example of a HEREDOC. It allows you store multi-line text in an output.**
 
 ---
-name: tf-dependency-graph
-class: img-right
-# Terraform Dependency Graph
-.center[![:scale 80%](images/blast_radius_graph_3.png)]
-
-The terraform resource graph visually depicts dependencies between resources.
-
-The location and prefix variables are required to create the resource group, which is in turn required to build the virtual network.
-
-???
-This is a good spot to talk a bit about how the dependency graph gets formed.
-
----
-name: lab-exercise-2a
-# 👩‍💻 Lab Exercise: Terraform in Action
-Let's use Terraform to build, manage, and destroy Azure resources. In this lab exercise you'll build the HashiCat application stack by running the `terraform apply` command.
-
-🛑 **STOP** after you complete the third quiz.
-
-???
-**We will explore the Terraform Graph together once everyone has completed the lab. Once you have the graph running in your instruqt lab stop there.**
-
----
-name: chapter-3-review
-# 📝 Chapter 3 Review
-
-In this chapter we:
-* Learned about Terraform resources
-* Ran terraform plan, graph, apply and destroy
-* Learned about dependencies
-* Viewed a graph of the lab
-* Looked at main.tf, variables.tf and outputs.tf
-* Built the Meow World application
-
----
-name: Chapter-4
-class: title
-# Chapter 4
-## Provision and Configure Azure VMs
-
----
 name: intro-to-provisioners
 # Using Terraform Provisioners
 Once you've used Terraform to stand up a virtual machine or container, you may wish to configure your operating system and applications. This is where provisioners come in. Terraform supports several different types of provisioners including: Bash, Powershell, Chef, Puppet, Ansible, and more.
@@ -1000,31 +898,6 @@ Provisioners only run the first time a Terraform run is executed. In this sense,
 On the other hand, if you want immutable infrastructure you should consider using our [Packer](https://packer.io) tool.
 
 ---
-name: lab-exercise-2b
-# 👩‍💻 Lab Exercise: Provisioners, Variables and Outputs
-In part two of the lab we'll use a provisioner to install a new software package. We will also explore variables and outputs.
-
-Return to the training lab and continue where you left off.
-
-🛑 **STOP** after you complete the fourth quiz.
-
----
-name: chapter-4-review
-# 📝 Chapter 4 Review
-.contents[
-In this chapter we:
-* Learned about Terraform Provisioners
-* Explored the **file** and **remote-exec** provisioners
-* Rebuilt our web server with a new provisioning step
-]
-
----
-name: Chapter-5
-class: title
-# Chapter 5
-## Terraform State
-
----
 name: terraform-state
 class: compact, smaller
 # Terraform State
@@ -1042,19 +915,6 @@ Terraform is a _stateful_ application. This means that it keeps track of everyth
     },
   ],
 }
-```
-
----
-name: terraform-refresh
-# Terraform Refresh
-Sometimes infrastructure may be changed outside of Terraform's control.
-
-The state file represents the *last known* state of the infrastructure. If you'd like to check and see if the state file still matches what you built, you can use the **terraform refresh** command.
-
-Note that this does *not* update your infrastructure, it simply updates the state file.
-
-```bash
-terraform refresh
 ```
 
 ---
@@ -1108,12 +968,6 @@ class: compact
 What happens in each scenario? Discuss.
 
 ---
-name: Chapter-6
-class: title
-# Chapter 6
-## Terraform Cloud
-
----
 name: terraform-cloud
 class: img-right
 # Terraform Cloud
@@ -1156,13 +1010,6 @@ name: execution-mode
 **Local Execution** - Terraform commands run on your laptop or workstation and all variables are configured locally. Only the terraform state is stored remotely.
 
 **Remote Execution** - Terraform commands are run in a Terraform Cloud container environment. All variables are stored in the remote workspace. Code can be stored in a Version Control System repository. Limited to 1 concurrent run for free tier users.
-
----
-name: lab-exercise-2c
-# 👩‍💻 Lab Exercise: Terraform Cloud
-In the final part of the second lab we'll create a free Terraform Cloud account and enable remote storage of our state file.
-
-Return to the training lab and continue where you left off.
 
 ---
 name: the-end
