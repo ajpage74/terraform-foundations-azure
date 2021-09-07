@@ -237,7 +237,7 @@ Apply your changes with the `terraform apply` command. You'll need to type **yes
 terraform apply
 ```
 
-Now head back over to the Azure Portal and click the **Refresh** link near the top of the page. You should see a new resource group called **tflab_rg** appear on the list.
+Now head back over to the Azure Portal and click the **Refresh** link near the top of the page. You should see a new resource group called **tflab-resource-group** appear on the list.
 
 Note: It can take up to a minute for the resource group to show up in the portal. If you don't see it simply hit the refresh button again.
 
