@@ -3,7 +3,7 @@ id: f6yk00j7w6ti
 type: track
 title: Terraform Foundations on Azure
 teaser: Learn how to write, test, run and share Terraform code for Azure Infrastructure.
-description: This beginner level track teaches the basics of writing Terraform code, how to use variables, module usage, version control systems and more. The target audiences for this track are developers and operations staff who will be writing and consuming Terraform code to build infrastructure on Azure.
+description: This beginner level track teaches the basics of writing Terraform code, how to use variables, module usage, version control systems and more. The target audiences for this track are developers and operations staff who will be writing and consuming Terraform code to build infrastructure on Azure. Please use version 2.46.0 of the AzureRM provider with this track. All of the exercises and solutions are tested and verified using this version.
 icon: https://storage.googleapis.com/instruqt-hashicorp-tracks/logo/terraform.png
 tags:
 - terraform
@@ -51,4 +51,4 @@ challenges:
     port: 80
   difficulty: basic
   timelimit: 21600
-checksum: "16295098276952390749"
+checksum: "18028870360815338975"

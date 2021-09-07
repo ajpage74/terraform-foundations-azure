@@ -199,7 +199,7 @@ https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/
 
 Add a new resource group named **tflab-resource-group** to your main.tf file and set the location parameter to **Central US**. You can set these with the **name** and location attributes inside your resource block. Use **tflab_rg** as the identifier.
 
-Please use version 2.46.0 for the provider. This is the version that has been tested with this workshop. You can check the [answer key](https://github.com/hashicorp/terraform-azure-labs/blob/main/lab_answers/02/main.tf#L5) to make sure you've got it set up correctly.
+Warning: Please use version 2.46.0 for the provider. This is the version that has been tested with this workshop. You can check the [answer key](https://github.com/hashicorp/terraform-azure-labs/blob/main/lab_answers/02/main.tf#L5) to make sure you've got it set up correctly.
 
 Also note that the `features {}` line is mandatory. Even though it is empty it must be there for the provider to work correctly.
 
