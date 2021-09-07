@@ -223,7 +223,7 @@ Terraform will perform the following actions:
   + resource "azurerm_resource_group" "tflab_rg" {
       + id       = (known after apply)
       + location = "centralus"
-      + name     = "tflab_rg"
+      + name     = "tflab-resource-group"
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.
@@ -419,7 +419,7 @@ Save the file. Now open the `main.tf` file and find the `location` line in your 
 
 ```php
 resource "azurerm_resource_group" "tflab_rg" {
-  name     = "tflab_rg"
+  name     = "tflab-resource-group"
   location = var.location
 }
 ```
